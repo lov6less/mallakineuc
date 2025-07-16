@@ -1,1 +1,79 @@
-
+{
+  "Semestre 1": [
+    ["Morfología General", "MEK101B", []],
+    ["Cálculo", "MAT1023", []],
+    ["Biología de la célula", "BIO141C", []],
+    ["Química", "QIM210K", []],
+    ["Introducción a la Kinesiología", "KIN101A", []],
+    ["Fundamentos psicológicos para kinesiología", "MEK102", []],
+  ],
+  "Semestre 2": [
+    ["Morfología de sistemas", "KIN102B", ["MEK101B"]],
+    ["Física", "FIS109K", ["MAT1023"]],
+    ["Fisiología", "BIO135K", ["BIO141C"]],
+    ["Bioquímica general", "QIM202K", ["QIM210K"]]
+  ],
+  "Semestre 3": [
+    ["Ciclo vital", "KIN202A", ["MEK102"]],
+    ["Fisiología del ejercicio", "KIN201A", ["BIO135K", "QIM202K"]],
+    ["Fisiopatología general y de sistemas", "MEK202B", ["BIO135K"]],
+    ["Neurociencias del movimiento", "KIN208", ["KIN102B", "BIO135K"]],
+    ["Bioestadística", "MEK201B", ["MAT1023"]]
+  ],
+  "Semestre 4": [
+    ["Análisis del movimiento", "KIN204A", ["FIS109K", "KIN208"]],
+    ["Fisiología clínica del ejercicio", "KIN203A", ["KIN201A"]],
+    ["Bases de la comunicación y la entrevista clínica", "KIN207", ["MEK102"]],
+    ["Patología", "KIN210", ["MEK202B"]],
+    ["Bioética", "KIN310", []]
+  ],
+  "Semestre 5": [
+    ["Razonamiento clínico y fundamentos de la evaluación", "KIN313", ["KIN207", "KIN210"]],
+    ["Gestión en organizaciones de salud", "MEK401B", []],
+    ["Kinesiología basada en la evidencia", "KIN311", ["MEK201B"]],
+    ["Salud pública", "KIN309", ["MEK201B"]],
+    ["Farmacología para kinesiología", "MEK204C", ["QIM202K", "MEK202B"]]
+  ],
+  "Semestre 6": [
+    ["Evaluación en kinesiología musculoesquelética", "KIN306B", ["KIN204A", "KIN313"]],
+    ["Evaluación en neurokinesiología", "KIN305B", ["KIN202A", "KIN204A", "KIN313"]],
+    ["Evaluación en kinesiología cardiorrespiratoria", "KIN304B", ["KIN203A", "KIN313"]],
+    ["Atención primaria en salud", "KIN12", ["KIN309"]],
+    ["Optativo de profundización", "OPT600", []]
+  ],
+  "Semestre 7": [
+    ["Kinesiología musculoesquelética I", "KIN403A", ["KIN306B"]],
+    ["Intervención en neurokinesiología I", "KIN402A", ["KIN305B"]],
+    ["Kinesiología cardiorrespiratoria I", "KIN401A", ["KIN304B"]],
+    ["Rehabilitación basada en la comunidad", "KIN411", ["KIN12"]],
+    ["Investigación en kinesiología I", "KIN410B", ["KIN311"]]
+  ],
+  "Semestre 8": [
+    ["Kinesiología musculoesquelética II", "KIN407A", ["KIN403A"]],
+    ["Intervención en neurokinesiología II", "KIN405A", ["KIN402A"]],
+    ["Kinesiología cardiorrespiratoria II", "KIN404A", ["KIN304B"]],
+    ["Investigación en kinesiología II", "KIN409A", ["KIN410B"]],
+    ["Optativo de profundización II", "OPT800", []]
+  ],
+  "Formación General": [
+    ["Formación teológica", "FG-T", []],
+    ["Filosofía: ¿Para qué?", "FIL2001", []],
+    ["Artes", "FG-ART", []],
+    ["Humanidades", "FG-HUM", []],
+    ["Ciencias sociales", "FG-CS", []],
+    ["Ciencia y tecnología", "FG-CT", []],
+    ["Ecología Integral y sustentabilidad", "FG-ECO", []],
+    ["Créditos libres (10)", "FG-CL", []]
+  ],
+  "Semestre 9": [
+    ["Internado: Kinesiología cardiorrespiratorio infantil", "KIN504B", ["KIN407A", "KIN405A", "KIN404A", "KIN409A", "OPT800", "FG1000"]],
+    ["Internado: Neurokinesiología infantil", "KIN506A", ["KIN407A", "KIN405A", "KIN404A", "KIN409A", "OPT800", "FG1000"]],
+    ["Internado: Kinesiología cardiorrespiratorio adulto", "KIN502B", ["KIN407A", "KIN405A", "KIN404A", "KIN409A", "OPT800", "FG1000"]]
+  ],
+  "Semestre 10": [
+    ["Internado: Kinesiología musculoesquelética", "KIN501B", ["KIN407A", "KIN405A", "KIN404A", "KIN409A", "OPT800", "FG1000"]],
+    ["Internado: Neurokinesiología adulto", "KIN505B", ["KIN407A", "KIN405A", "KIN404A", "KIN409A", "OPT800", "FG1000"]],
+    ["Internado: Kinesiología musculoesquelética aplicada", "KIN503B", ["KIN407A", "KIN405A", "KIN404A", "KIN409A", "OPT800", "FG1000"]],
+    ["Internado: Electivo", "KIN-ELECTIVO", ["KIN407A", "KIN405A", "KIN404A", "KIN409A", "OPT800", "FG1000"]]
+  ]
+}
