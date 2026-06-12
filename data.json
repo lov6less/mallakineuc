@@ -139,6 +139,7 @@
   "codigo": "KIN313",
   "semestre": 5,
   "prerequisitos": [
+    "KIN204A",
     "KIN207",
     "KIN210"
   ]
