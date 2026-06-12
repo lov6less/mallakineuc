@@ -1,46 +1,54 @@
 /* ========================= */
-/* FUENTE Y VARIABLES */
+/* VARIABLES */
 /* ========================= */
 
 :root{
-    --background: #FFF5F8;
-    --card: #FFFFFF;
-    --text: #4A4A4A;
 
-    --available: #DDF2FF;
-    --completed: #FFD9E8;
-    --locked: #ECECEC;
+    --background:#fff8fb;
+    --card:#ffffff;
+    --text:#545454;
 
-    --shadow: rgba(0,0,0,0.08);
+    --available:#dff4ff;
+    --completed:#ffd8e7;
+    --locked:#ececec;
+
+    --shadow:rgba(0,0,0,.08);
 
     --progress-gradient:
-        linear-gradient(
-            90deg,
-            #ffc7dc,
-            #d4f0ff
-        );
+    linear-gradient(
+        90deg,
+        #ffc8dd,
+        #d8f0ff
+    );
 
-    --transition: .35s ease;
+    --border-radius:25px;
+
+    --transition:.35s ease;
 }
+
+/* ========================= */
+/* MODO OSCURO */
+/* ========================= */
 
 .dark-mode{
 
-    --background: #1E2233;
-    --card: #2A3046;
-    --text: #F2F2F2;
+    --background:#1e2233;
+    --card:#2a3046;
+    --text:#f4f4f4;
 
-    --available: #84B6D7;
-    --completed: #C89BB4;
-    --locked: #505768;
+    --available:#8eb9d8;
+    --completed:#c79cb7;
+    --locked:#4d5467;
 
-    --shadow: rgba(255,255,255,.05);
+    --shadow:rgba(255,255,255,.05);
 
     --progress-gradient:
-        linear-gradient(
-            90deg,
-            #d89fbb,
-            #90b8d7
-        );
+    linear-gradient(
+        90deg,
+        #d7a3bd,
+        #9bc1dc
+    );
+
 }
 
 /* ========================= */
@@ -48,93 +56,75 @@
 /* ========================= */
 
 *{
-    box-sizing:border-box;
+
     margin:0;
     padding:0;
+    box-sizing:border-box;
+
 }
 
 body{
 
-    font-family:'Poppins', sans-serif;
+    font-family:'Poppins',sans-serif;
+
     background:var(--background);
+
     color:var(--text);
 
     transition:.4s;
 
-    overflow-x:hidden;
     min-height:100vh;
+
+    overflow-x:hidden;
+
 }
 
 /* ========================= */
-/* BURBUJITAS */
+/* ESTRELLITAS */
 /* ========================= */
 
-.bubble{
+.stars{
 
     position:fixed;
-    border-radius:50%;
+
+    inset:0;
+
+    pointer-events:none;
+
     z-index:-1;
 
-    filter:blur(8px);
+    opacity:.3;
 
-    opacity:.35;
+    background-image:
 
-    animation:float 12s infinite ease-in-out;
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.9) 1px,
+            transparent 1px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(255,210,230,.8) 1px,
+            transparent 1px
+        ),
+
+        radial-gradient(
+            circle,
+            rgba(210,235,255,.8) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        170px 170px,
+        240px 240px,
+        320px 320px;
+
 }
 
-.bubble1{
-    width:180px;
-    height:180px;
-    background:#ffd7ea;
-    top:8%;
-    left:5%;
-}
+.dark-mode .stars{
 
-.bubble2{
-    width:240px;
-    height:240px;
-    background:#d8f3ff;
-    top:65%;
-    left:80%;
-}
-
-.bubble3{
-    width:120px;
-    height:120px;
-    background:#f3ddff;
-    top:40%;
-    left:55%;
-}
-
-.bubble4{
-    width:160px;
-    height:160px;
-    background:#ffe2f0;
-    top:75%;
-    left:15%;
-}
-
-.bubble5{
-    width:100px;
-    height:100px;
-    background:#dff4ff;
-    top:20%;
-    left:85%;
-}
-
-@keyframes float{
-
-    0%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-25px);
-    }
-
-    100%{
-        transform:translateY(0);
-    }
+    opacity:.2;
 
 }
 
@@ -145,61 +135,149 @@ body{
 header{
 
     text-align:center;
+
     padding:40px 20px;
+
 }
 
 h1{
 
     margin-bottom:20px;
+
 }
 
-#theme-toggle{
+/* ========================= */
+/* BOTONES SUPERIORES */
+/* ========================= */
 
-    background:white;
-    border:none;
+.top-buttons{
 
-    padding:12px 18px;
+    display:flex;
 
-    border-radius:20px;
+    justify-content:center;
 
-    cursor:pointer;
+    gap:15px;
+
+    flex-wrap:wrap;
 
     margin-bottom:25px;
 
-    box-shadow:0 5px 15px var(--shadow);
+}
+
+#theme-toggle,
+#reset-btn{
+
+    border:none;
+
+    background:white;
+
+    padding:13px 20px;
+
+    border-radius:25px;
+
+    cursor:pointer;
+
+    font-family:'Poppins';
+
+    font-weight:600;
+
+    box-shadow:0 8px 18px var(--shadow);
+
+    transition:var(--transition);
+
+}
+
+#theme-toggle:hover,
+#reset-btn:hover{
+
+    transform:translateY(-3px);
+
 }
 
 /* ========================= */
-/* BARRA PROGRESO */
+/* BUSCADOR */
 /* ========================= */
+
+.search-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-bottom:30px;
+
+}
+
+#search-input{
+
+    width:min(500px,90%);
+
+    padding:15px 20px;
+
+    border:none;
+
+    border-radius:30px;
+
+    outline:none;
+
+    font-family:'Poppins';
+
+    background:var(--card);
+
+    color:var(--text);
+
+    box-shadow:0 8px 18px var(--shadow);
+
+}
+
+/* ========================= */
+/* BARRA DE PROGRESO */
+/* ========================= */
+
+.progress-section{
+
+    margin-top:20px;
+
+}
 
 .progress-bar-container{
 
-    width:80%;
-    height:20px;
+    width:min(700px,90%);
 
     margin:auto;
 
-    border-radius:20px;
+    height:22px;
 
     background:white;
 
     overflow:hidden;
 
-    box-shadow:0 5px 15px var(--shadow);
+    border-radius:25px;
+
+    box-shadow:0 8px 18px var(--shadow);
+
 }
 
 #progress-bar{
 
-    width:0%;
+    width:0;
 
     height:100%;
+
+    border-radius:25px;
 
     background:var(--progress-gradient);
 
     transition:width .8s ease;
 
-    border-radius:20px;
+}
+
+#porcentaje-total{
+
+    margin-top:10px;
+
+    font-weight:600;
+
 }
 
 /* ========================= */
@@ -212,33 +290,56 @@ h1{
 
     justify-content:center;
 
-    gap:25px;
-
     flex-wrap:wrap;
 
-    margin-bottom:35px;
+    gap:25px;
+
+    margin-bottom:40px;
+
 }
 
 .stat-card{
 
     background:var(--card);
 
-    padding:20px;
+    width:150px;
+
+    padding:22px;
 
     border-radius:25px;
 
-    width:140px;
-
     text-align:center;
 
-    box-shadow:0 8px 20px var(--shadow);
+    box-shadow:0 8px 18px var(--shadow);
+
 }
 
 .stat-card span{
 
-    font-size:1.7rem;
+    display:block;
+
+    font-size:1.8rem;
 
     font-weight:700;
+
+    margin-bottom:10px;
+
+}/* ========================= */
+/* MALLA */
+/* ========================= */
+
+#malla-container{
+
+    display:flex;
+
+    gap:25px;
+
+    align-items:flex-start;
+
+    overflow-x:auto;
+
+    padding:20px;
+
 }
 
 /* ========================= */
@@ -247,93 +348,142 @@ h1{
 
 .semester{
 
-    margin:35px;
+    min-width:270px;
 
-    background:rgba(255,255,255,.4);
+    background:rgba(255,255,255,.35);
 
-    padding:25px;
+    backdrop-filter:blur(10px);
 
     border-radius:30px;
 
-    backdrop-filter:blur(10px);
+    padding:20px;
+
+    flex-shrink:0;
+
 }
 
 .semester h2{
 
+    text-align:center;
+
     margin-bottom:20px;
+
+    font-size:1.2rem;
+
 }
 
 /* ========================= */
-/* CONTENEDOR DE RAMOS */
+/* RAMOS */
 /* ========================= */
 
 .course-grid{
 
-    display:grid;
+    display:flex;
 
-    gap:18px;
+    flex-direction:column;
 
-    grid-template-columns:
-        repeat(auto-fill,minmax(230px,1fr));
+    gap:15px;
+
 }
-
-/* ========================= */
-/* TARJETAS */
-/* ========================= */
 
 .course{
 
     position:relative;
 
-    padding:18px;
+    background:var(--card);
 
     border-radius:25px;
 
+    padding:16px;
+
+    text-align:center;
+
     cursor:pointer;
+
+    box-shadow:0 8px 18px var(--shadow);
 
     transition:var(--transition);
 
-    box-shadow:0 8px 18px var(--shadow);
-}
+    animation:fadeIn .5s ease;
 
-/* Hover */
+}
 
 .course:hover{
 
-    transform:translateY(-6px);
+    transform:translateY(-5px);
 
-    box-shadow:0 15px 30px var(--shadow);
+    box-shadow:0 15px 25px var(--shadow);
+
 }
 
-/* Disponible */
+.course h4{
+
+    font-size:.95rem;
+
+    line-height:1.35;
+
+    margin-bottom:10px;
+
+}
+
+.course p{
+
+    font-size:.85rem;
+
+    opacity:.75;
+
+}
+
+/* ========================= */
+/* ESTADOS */
+/* ========================= */
 
 .available{
 
     background:var(--available);
-}
 
-/* Aprobado */
+}
 
 .completed{
 
     background:var(--completed);
 
-    animation:shine .8s;
-}
+    animation:shine .7s ease;
 
-/* Bloqueado */
+}
 
 .locked{
 
     background:var(--locked);
 
-    opacity:.7;
+    opacity:.75;
 
     cursor:not-allowed;
+
+}
+
+/* CHECK */
+
+.completed::after{
+
+    content:"✓";
+
+    position:absolute;
+
+    top:15px;
+
+    right:18px;
+
+    font-size:1.2rem;
+
+    color:#ff4f93;
+
+    font-weight:700;
+
 }
 
 /* ========================= */
-/* BRILLO */
+/* ANIMACIONES */
 /* ========================= */
 
 @keyframes shine{
@@ -341,111 +491,41 @@ h1{
     0%{
 
         transform:scale(1);
+
     }
 
     40%{
 
         transform:scale(1.05);
+
     }
 
     100%{
 
         transform:scale(1);
+
     }
 
 }
 
-/* CHECK */
+@keyframes fadeIn{
 
-.course.completed::after{
+    from{
 
-    content:"✓";
+        opacity:0;
 
-    position:absolute;
+        transform:translateY(10px);
 
-    top:15px;
-    right:18px;
+    }
 
-    font-size:1.2rem;
+    to{
 
-    color:#ff4e97;
+        opacity:1;
 
-    font-weight:bold;
-}
+        transform:translateY(0);
 
-/* ========================= */
-/* PROGRESO SEMESTRES */
-/* ========================= */
+    }
 
-.semester-progress{
-
-    width:85%;
-
-    margin:auto auto 40px;
-}
-
-.semester-progress-item{
-
-    margin-bottom:15px;
-}
-
-.semester-progress-bar{
-
-    height:15px;
-
-    background:white;
-
-    border-radius:15px;
-
-    overflow:hidden;
-
-    margin-top:5px;
-}
-
-.semester-progress-fill{
-
-    height:100%;
-
-    width:0;
-
-    background:var(--progress-gradient);
-
-    transition:.8s;
-}
-
-/* ========================= */
-/* BOTONES */
-/* ========================= */
-
-.controls{
-
-    text-align:center;
-
-    margin-bottom:30px;
-}
-
-#reset-btn{
-
-    border:none;
-
-    background:#ffbdd7;
-
-    padding:15px 22px;
-
-    border-radius:25px;
-
-    cursor:pointer;
-
-    font-family:'Poppins';
-
-    font-weight:600;
-
-    transition:.3s;
-}
-
-#reset-btn:hover{
-
-    transform:scale(1.05);
 }
 
 /* ========================= */
@@ -458,17 +538,24 @@ h1{
 
     display:none;
 
-    background:white;
+    background:var(--card);
 
     padding:18px;
 
     border-radius:20px;
 
-    box-shadow:0 10px 25px var(--shadow);
+    box-shadow:0 12px 25px var(--shadow);
 
     max-width:270px;
 
     z-index:999;
+
+}
+
+#tooltip h4{
+
+    margin-bottom:10px;
+
 }
 
 /* ========================= */
@@ -480,24 +567,115 @@ h1{
     position:fixed;
 
     top:50%;
+
     left:50%;
 
-    transform:
-        translate(-50%,-50%);
+    transform:translate(-50%,-50%);
 
-    background:white;
+    background:var(--card);
 
-    padding:35px;
+    padding:40px;
 
     border-radius:30px;
 
     text-align:center;
 
-    box-shadow:0 20px 50px var(--shadow);
+    box-shadow:0 20px 40px var(--shadow);
 
     display:none;
 
     z-index:9999;
+
+}
+
+/* ========================= */
+/* PROGRESO POR SEMESTRE */
+/* ========================= */
+
+.semester-progress{
+
+    width:min(800px,90%);
+
+    margin:60px auto;
+
+}
+
+.semester-progress h2{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+.semester-progress-item{
+
+    margin-bottom:20px;
+
+}
+
+.semester-progress-bar{
+
+    background:white;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    height:18px;
+
+    margin-top:8px;
+
+}
+
+.semester-progress-fill{
+
+    width:0;
+
+    height:100%;
+
+    background:var(--progress-gradient);
+
+    transition:.8s;
+
+}
+
+/* ========================= */
+/* BOTÓN VOLVER ARRIBA */
+/* ========================= */
+
+#back-to-top{
+
+    position:fixed;
+
+    bottom:30px;
+
+    right:25px;
+
+    width:55px;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:50%;
+
+    cursor:pointer;
+
+    background:var(--completed);
+
+    box-shadow:0 10px 20px var(--shadow);
+
+    font-size:1.2rem;
+
+    transition:var(--transition);
+
+}
+
+#back-to-top:hover{
+
+    transform:translateY(-5px);
+
 }
 
 /* ========================= */
@@ -511,6 +689,7 @@ footer{
     padding:35px;
 
     opacity:.7;
+
 }
 
 /* ========================= */
@@ -519,15 +698,26 @@ footer{
 
 @media(max-width:768px){
 
-    .stats{
+    #malla-container{
 
         flex-direction:column;
+
         align-items:center;
+
     }
 
     .semester{
 
-        margin:20px;
+        width:95%;
+
+    }
+
+    .stats{
+
+        flex-direction:column;
+
+        align-items:center;
+
     }
 
 }
