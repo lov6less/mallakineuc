@@ -1,192 +1,221 @@
-// ==========================
-// VARIABLES
-// ==========================
+// ======================
+// VARIABLES GLOBALES
+// ======================
 
 let cursos = [];
-let aprobados = JSON.parse(localStorage.getItem("aprobados")) || [];
+let aprobados = JSON.parse(localStorage.getItem("ramosAprobados")) || [];
 
 const mallaContainer = document.getElementById("malla-container");
 
+const ordenSemestres = [
+    1,2,3,4,5,6,7,8,"FG",9,10
+];
 
-// ==========================
-// CARGAR JSON
-// ==========================
+const nombresSemestres = {
+    1: "1° Semestre",
+    2: "2° Semestre",
+    3: "3° Semestre",
+    4: "4° Semestre",
+    5: "5° Semestre",
+    6: "6° Semestre",
+    7: "7° Semestre",
+    8: "8° Semestre",
+    "FG": "Formación General",
+    9: "9° Semestre",
+    10: "10° Semestre"
+};
+
+// ======================
+// CARGAR DATA.JSON
+// ======================
 
 fetch("data.json")
-    .then(res => res.json())
+    .then(response => response.json())
     .then(data => {
 
         cursos = data;
 
-        renderizarMalla();
+        crearMalla();
 
-        actualizarTodo();
+        actualizarEstadoCursos();
+
+        actualizarProgreso();
+
+        actualizarEstadisticas();
+
+        actualizarProgresoSemestres();
 
     });
 
 
-// ==========================
+// ======================
 // CREAR MALLA
-// ==========================
+// ======================
 
-function renderizarMalla() {
+function crearMalla(){
 
     mallaContainer.innerHTML = "";
 
-    const semestres = [...new Set(cursos.map(c => c.semestre))];
+    ordenSemestres.forEach(semestre => {
 
-    semestres.forEach(semestre => {
+        const columna = document.createElement("div");
+        columna.classList.add("semester");
 
-        const section = document.createElement("section");
-
-        section.classList.add("semester");
-
-        section.innerHTML = `
-            <h2>${obtenerTituloSemestre(semestre)}</h2>
-            <div class="course-grid" id="sem-${semestre}"></div>
+        columna.innerHTML = `
+            <h2>${nombresSemestres[semestre]}</h2>
+            <div class="course-grid"></div>
         `;
 
-        mallaContainer.appendChild(section);
-
-        const grid = document.getElementById(`sem-${semestre}`);
+        const grid = columna.querySelector(".course-grid");
 
         cursos
             .filter(curso => curso.semestre === semestre)
             .forEach(curso => {
 
-                const div = document.createElement("div");
+                const tarjeta = document.createElement("div");
 
-                div.classList.add("course");
+                tarjeta.classList.add("course");
 
-                div.id = curso.codigo;
+                tarjeta.dataset.codigo = curso.codigo;
 
-                div.innerHTML = `
+                tarjeta.innerHTML = `
                     <h4>${curso.nombre}</h4>
                     <p>${curso.codigo}</p>
                 `;
 
-                div.addEventListener("click", () => toggleCurso(curso));
+                tarjeta.addEventListener("click", () => {
 
-                div.addEventListener("mouseenter", e => mostrarTooltip(e, curso));
+                    toggleCurso(curso.codigo);
 
-                div.addEventListener("mouseleave", ocultarTooltip);
+                });
 
-                grid.appendChild(div);
+                grid.appendChild(tarjeta);
 
             });
 
+        mallaContainer.appendChild(columna);
+
     });
 
 }
 
 
-// ==========================
-// TITULOS
-// ==========================
+// ======================
+// OBTENER TARJETA
+// ======================
 
-function obtenerTituloSemestre(semestre){
+function obtenerTarjeta(codigo){
 
-    if(semestre === "FG") return "🌸 Formación General";
-
-    return `${semestre}° Semestre`;
+    return document.querySelector(
+        `[data-codigo="${codigo}"]`
+    );
 
 }
 
 
-// ==========================
-// APROBAR RAMO
-// ==========================
+// ======================
+// GUARDAR PROGRESO
+// ======================
 
-function toggleCurso(curso){
-
-    if(!cursoDisponible(curso)) return;
-
-    if(aprobados.includes(curso.codigo)){
-
-        aprobados = aprobados.filter(c => c !== curso.codigo);
-
-    }else{
-
-        aprobados.push(curso.codigo);
-
-    }
+function guardarProgreso(){
 
     localStorage.setItem(
-        "aprobados",
+        "ramosAprobados",
         JSON.stringify(aprobados)
     );
 
-    actualizarTodo();
-
 }
 
 
-// ==========================
-// DISPONIBILIDAD
-// ==========================
+// ======================
+// RESETEAR PROGRESO
+// ======================
 
-function cursoDisponible(curso){
+document
+    .getElementById("reset-btn")
+    .addEventListener("click", () => {
 
-    if(curso.prerequisitos.length === 0)
-        return true;
+        if(confirm("¿Reiniciar toda la malla?")){
 
+            aprobados = [];
 
-    // INTERNADOS
+            guardarProgreso();
 
+            actualizarEstadoCursos();
+
+            actualizarProgreso();
+
+            actualizarEstadisticas();
+
+            actualizarProgresoSemestres();
+
+        }
+
+    });// ======================
+// ¿CUMPLE PRERREQUISITOS?
+// ======================
+
+function cumplePrerequisitos(curso){
+
+    // Caso especial internados
     if(curso.prerequisitos.includes("TODA_LA_CARRERA")){
 
-        return cursos
-            .filter(c => c.semestre !== 9 && c.semestre !== 10)
-            .every(c => aprobados.includes(c.codigo));
+        const cursosPrevios = cursos.filter(c =>
+            c.semestre !== 9 &&
+            c.semestre !== 10
+        );
 
+        return cursosPrevios.every(c =>
+            aprobados.includes(c.codigo)
+        );
     }
 
-    return curso.prerequisitos.every(
-        p => aprobados.includes(p)
+    return curso.prerequisitos.every(pr =>
+        aprobados.includes(pr)
     );
 
 }
 
 
-// ==========================
-// ACTUALIZAR COLORES
-// ==========================
+// ======================
+// APROBAR / DESAPROBAR
+// ======================
 
-function actualizarTodo(){
+function toggleCurso(codigo){
 
-    let disponibles = 0;
+    const curso = cursos.find(c =>
+        c.codigo === codigo
+    );
 
-    cursos.forEach(curso => {
+    const tarjeta = obtenerTarjeta(codigo);
 
-        const div = document.getElementById(curso.codigo);
+    // Si ya está aprobado → desaprobar
+    if(aprobados.includes(codigo)){
 
-        div.classList.remove(
-            "locked",
-            "available",
-            "completed"
-        );
+        desaprobarCurso(codigo);
 
-        if(aprobados.includes(curso.codigo)){
+        return;
 
-            div.classList.add("completed");
+    }
 
-        }
-        else if(cursoDisponible(curso)){
+    // Si está bloqueado no hace nada
+    if(!cumplePrerequisitos(curso)){
 
-            div.classList.add("available");
+        return;
 
-            disponibles++;
+    }
 
-        }
-        else{
+    aprobados.push(codigo);
 
-            div.classList.add("locked");
+    tarjeta.classList.add("completed");
 
-        }
+    guardarProgreso();
 
-    });
+    actualizarEstadoCursos();
 
-    actualizarEstadisticas(disponibles);
+    actualizarProgreso();
+
+    actualizarEstadisticas();
 
     actualizarProgresoSemestres();
 
@@ -195,80 +224,243 @@ function actualizarTodo(){
 }
 
 
-// ==========================
-// ESTADISTICAS
-// ==========================
+// ======================
+// DESAPROBAR
+// ======================
 
-function actualizarEstadisticas(disponibles){
+function desaprobarCurso(codigo){
 
-    const total = cursos.length;
+    aprobados = aprobados.filter(c =>
+        c !== codigo
+    );
 
-    const porcentaje =
-        Math.round(
-            (aprobados.length / total) * 100
-        );
+    guardarProgreso();
 
-    document.getElementById("aprobados").textContent =
-        aprobados.length;
+    actualizarEstadoCursos();
 
-    document.getElementById("disponibles").textContent =
-        disponibles;
+    actualizarProgreso();
 
-    document.getElementById("bloqueados").textContent =
-        total - disponibles - aprobados.length;
+    actualizarEstadisticas();
 
-    document.getElementById("contador-ramos").textContent =
-        `${aprobados.length} / ${total} ramos aprobados`;
-
-    document.getElementById("porcentaje-total").textContent =
-        `${porcentaje}%`;
-
-    document.getElementById("progress-bar").style.width =
-        porcentaje + "%";
+    actualizarProgresoSemestres();
 
 }
 
 
-// ==========================
-// PROGRESO SEMESTRES
-// ==========================
+// ======================
+// ACTUALIZAR ESTADOS
+// ======================
+
+function actualizarEstadoCursos(){
+
+    cursos.forEach(curso => {
+
+        const tarjeta = obtenerTarjeta(
+            curso.codigo
+        );
+
+        tarjeta.classList.remove(
+            "completed",
+            "available",
+            "locked"
+        );
+
+        // Aprobado
+        if(aprobados.includes(curso.codigo)){
+
+            tarjeta.classList.add(
+                "completed"
+            );
+
+        }
+
+        // Disponible
+        else if(cumplePrerequisitos(curso)){
+
+            tarjeta.classList.add(
+                "available"
+            );
+
+        }
+
+        // Bloqueado
+        else{
+
+            tarjeta.classList.add(
+                "locked"
+            );
+
+        }
+
+    });
+
+}
+
+
+// ======================
+// INTERNADOS
+// ======================
+
+let popupMostrado = false;
+
+function verificarInternados(){
+
+    const desbloqueados = cursos
+        .filter(c =>
+            c.prerequisitos.includes(
+                "TODA_LA_CARRERA"
+            )
+        )
+        .every(c =>
+            cumplePrerequisitos(c)
+        );
+
+    if(
+        desbloqueados &&
+        !popupMostrado
+    ){
+
+        popupMostrado = true;
+
+        const popup = document.getElementById(
+            "internado-popup"
+        );
+
+        popup.style.display = "block";
+
+        setTimeout(() => {
+
+            popup.style.display = "none";
+
+        }, 5000);
+
+    }
+
+}// ======================
+// BARRA DE PROGRESO
+// ======================
+
+function actualizarProgreso(){
+
+    const total = cursos.length;
+
+    const porcentaje =
+        (aprobados.length / total) * 100;
+
+    document.getElementById(
+        "contador-ramos"
+    ).textContent =
+        `${aprobados.length} / ${total} ramos aprobados`;
+
+    document.getElementById(
+        "progress-bar"
+    ).style.width =
+        porcentaje + "%";
+
+    document.getElementById(
+        "porcentaje-total"
+    ).textContent =
+        porcentaje.toFixed(1) + "%";
+
+}
+
+
+// ======================
+// ESTADÍSTICAS
+// ======================
+
+function actualizarEstadisticas(){
+
+    let disponibles = 0;
+    let bloqueados = 0;
+
+    cursos.forEach(curso => {
+
+        if(aprobados.includes(curso.codigo)){
+
+            return;
+
+        }
+
+        if(cumplePrerequisitos(curso)){
+
+            disponibles++;
+
+        }
+        else{
+
+            bloqueados++;
+
+        }
+
+    });
+
+    document.getElementById(
+        "aprobados"
+    ).textContent =
+        aprobados.length;
+
+    document.getElementById(
+        "disponibles"
+    ).textContent =
+        disponibles;
+
+    document.getElementById(
+        "bloqueados"
+    ).textContent =
+        bloqueados;
+
+}
+
+
+// ======================
+// PROGRESO POR SEMESTRE
+// ======================
 
 function actualizarProgresoSemestres(){
 
-    const contenedor =
+    const container =
         document.getElementById(
             "semester-progress-container"
         );
 
-    contenedor.innerHTML = "";
+    container.innerHTML = "";
 
-    const semestres =
-        [...new Set(cursos.map(c => c.semestre))];
+    ordenSemestres.forEach(semestre => {
 
-    semestres.forEach(semestre => {
-
-        const cursosSem =
+        const cursosSemestre =
             cursos.filter(
                 c => c.semestre === semestre
             );
 
-        const aprobadosSem =
-            cursosSem.filter(
+        if(cursosSemestre.length === 0){
+
+            return;
+
+        }
+
+        const aprobadosSemestre =
+            cursosSemestre.filter(
                 c => aprobados.includes(c.codigo)
             ).length;
 
         const porcentaje =
-            Math.round(
-                aprobadosSem / cursosSem.length * 100
-            );
+            (aprobadosSemestre /
+            cursosSemestre.length) * 100;
 
-        contenedor.innerHTML += `
+        const item =
+            document.createElement("div");
 
-        <div class="semester-progress-item">
+        item.classList.add(
+            "semester-progress-item"
+        );
+
+        item.innerHTML = `
 
             <strong>
-                ${obtenerTituloSemestre(semestre)}
-                (${aprobadosSem}/${cursosSem.length})
+
+                ${nombresSemestres[semestre]}
+
             </strong>
 
             <div class="semester-progress-bar">
@@ -280,98 +472,81 @@ function actualizarProgresoSemestres(){
 
             </div>
 
-        </div>
+            <p>
+
+                ${aprobadosSemestre}
+                /
+                ${cursosSemestre.length}
+                (${porcentaje.toFixed(0)}%)
+
+            </p>
 
         `;
+
+        container.appendChild(item);
 
     });
 
 }
 
 
-// ==========================
-// TOOLTIP
-// ==========================
+// ======================
+// BUSCADOR
+// ======================
 
-function mostrarTooltip(evento, curso){
+const searchInput =
+document.getElementById(
+    "search-input"
+);
 
-    const tooltip =
-        document.getElementById("tooltip");
+searchInput.addEventListener(
+    "input",
+    buscarCursos
+);
 
-    tooltip.style.display = "block";
 
-    tooltip.style.left =
-        evento.pageX + 20 + "px";
+function buscarCursos(){
 
-    tooltip.style.top =
-        evento.pageY + "px";
+    const texto =
+        searchInput.value
+        .toLowerCase()
+        .trim();
 
-    let texto = "";
+    document
+        .querySelectorAll(".course")
+        .forEach(tarjeta => {
 
-    if(curso.prerequisitos.length === 0){
+            const contenido =
+                tarjeta.innerText
+                .toLowerCase();
 
-        texto =
-            "Sin prerrequisitos";
+            tarjeta.style.border = "";
 
-    }
-    else{
+            if(
+                texto !== "" &&
+                contenido.includes(texto)
+            ){
 
-        curso.prerequisitos.forEach(pr => {
-
-            if(pr === "TODA_LA_CARRERA"){
-
-                texto +=
-                    "✓ Aprobar toda la carrera<br>";
-
-            }
-            else{
-
-                const ramo =
-                    cursos.find(
-                        c => c.codigo === pr
-                    );
-
-                const check =
-                    aprobados.includes(pr)
-                        ? "✓"
-                        : "✗";
-
-                texto +=
-                    `${check} ${ramo.nombre}<br>`;
+                tarjeta.style.border =
+                    "3px solid #ff8ec0";
 
             }
 
         });
 
-    }
-
-    document.getElementById(
-        "tooltip-content"
-    ).innerHTML = texto;
-
-}
-
-function ocultarTooltip(){
-
-    document.getElementById(
-        "tooltip"
-    ).style.display = "none";
-
-}
-
-
-// ==========================
+}// ======================
 // MODO OSCURO
-// ==========================
+// ======================
 
-const themeBtn =
+const themeButton =
     document.getElementById(
         "theme-toggle"
     );
 
 if(
-    localStorage.getItem("modoOscuro")
-    === "true"
+    localStorage.getItem(
+        "darkMode"
+    ) === "true"
 ){
 
     document.body.classList.add(
@@ -380,88 +555,244 @@ if(
 
 }
 
-themeBtn.addEventListener("click", () => {
+themeButton.addEventListener(
+    "click",
+    () => {
 
-    document.body.classList.toggle(
-        "dark-mode"
-    );
-
-    localStorage.setItem(
-        "modoOscuro",
-        document.body.classList.contains(
+        document.body.classList.toggle(
             "dark-mode"
-        )
-    );
-
-});
-
-
-// ==========================
-// REINICIAR
-// ==========================
-
-document.getElementById(
-    "reset-btn"
-).addEventListener("click", () => {
-
-    if(
-        confirm(
-            "¿Reiniciar toda la malla?"
-        )
-    ){
-
-        localStorage.removeItem(
-            "aprobados"
         );
-
-        location.reload();
-
-    }
-
-});
-
-
-// ==========================
-// POPUP INTERNADOS
-// ==========================
-
-function verificarInternados(){
-
-    const desbloqueados =
-        cursos
-        .filter(c =>
-            c.prerequisitos.includes(
-                "TODA_LA_CARRERA"
-            )
-        )
-        .every(c =>
-            cursoDisponible(c)
-        );
-
-    if(
-        desbloqueados &&
-        !localStorage.getItem(
-            "popupInternados"
-        )
-    ){
-
-        document.getElementById(
-            "internado-popup"
-        ).style.display = "block";
-
-        setTimeout(() => {
-
-            document.getElementById(
-                "internado-popup"
-            ).style.display = "none";
-
-        },5000);
 
         localStorage.setItem(
-            "popupInternados",
-            true
+            "darkMode",
+            document.body.classList.contains(
+                "dark-mode"
+            )
         );
 
     }
+);
 
-}
+
+// ======================
+// TOOLTIP
+// ======================
+
+const tooltip =
+    document.getElementById(
+        "tooltip"
+    );
+
+const tooltipContent =
+    document.getElementById(
+        "tooltip-content"
+    );
+
+
+document.addEventListener(
+    "mouseover",
+    e => {
+
+        const tarjeta =
+            e.target.closest(
+                ".course"
+            );
+
+        if(!tarjeta){
+
+            tooltip.style.display =
+                "none";
+
+            return;
+
+        }
+
+        const codigo =
+            tarjeta.dataset.codigo;
+
+        const curso =
+            cursos.find(
+                c =>
+                c.codigo === codigo
+            );
+
+        if(!curso){
+
+            return;
+
+        }
+
+        if(
+            curso.prerequisitos.length === 0
+        ){
+
+            tooltipContent.innerHTML =
+                "<p>Sin prerrequisitos</p>";
+
+        }
+        else{
+
+            tooltipContent.innerHTML =
+                curso.prerequisitos
+                .map(pr => {
+
+                    if(pr === "TODA_LA_CARRERA"){
+
+                        return `
+                        <p>
+                        🎓 Aprobar toda la carrera
+                        </p>
+                        `;
+
+                    }
+
+                    const aprobado =
+                        aprobados.includes(pr);
+
+                    return `
+                    <p>
+
+                    ${aprobado ? "✅" : "❌"}
+
+                    ${pr}
+
+                    </p>
+                    `;
+
+                })
+                .join("");
+
+        }
+
+        tooltip.style.display =
+            "block";
+
+    }
+);
+
+
+document.addEventListener(
+    "mousemove",
+    e => {
+
+        tooltip.style.left =
+            e.pageX + 15 + "px";
+
+        tooltip.style.top =
+            e.pageY + 15 + "px";
+
+    }
+);
+
+
+document.addEventListener(
+    "mouseout",
+    e => {
+
+        if(
+            e.target.closest(".course")
+        ){
+
+            tooltip.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+// ======================
+// BOTÓN VOLVER ARRIBA
+// ======================
+
+const backButton =
+    document.getElementById(
+        "back-to-top"
+    );
+
+
+window.addEventListener(
+    "scroll",
+    () => {
+
+        if(
+            window.scrollY > 400
+        ){
+
+            backButton.style.display =
+                "block";
+
+        }
+        else{
+
+            backButton.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+backButton.addEventListener(
+    "click",
+    () => {
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+    }
+);
+
+
+// ======================
+// CERRAR POPUP
+// ======================
+
+document.addEventListener(
+    "click",
+    e => {
+
+        const popup =
+            document.getElementById(
+                "internado-popup"
+            );
+
+        if(
+            popup.style.display ===
+            "block"
+        ){
+
+            popup.style.display =
+                "none";
+
+        }
+
+    }
+);
+
+
+// ======================
+// EVENTOS FINALES
+// ======================
+
+window.addEventListener(
+    "load",
+    () => {
+
+        actualizarEstadoCursos();
+
+        actualizarProgreso();
+
+        actualizarEstadisticas();
+
+        actualizarProgresoSemestres();
+
+    }
+);
