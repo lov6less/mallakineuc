@@ -80,13 +80,13 @@
     "nombre": "Fisiopatología general y de sistemas",
     "codigo": "MEK202B",
     "semestre": 3,
-    "prerequisitos": []
+    "prerequisitos": ["BIO135K"]
   },
   {
     "nombre": "Neurociencias del movimiento",
     "codigo": "KIN208",
     "semestre": 3,
-    "prerequisitos": []
+    "prerequisitos": ["KIN102B"]
   },
   {
     "nombre": "Bioestadística",
