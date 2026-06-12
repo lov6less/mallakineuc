@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Interactiva Kinesiología UC 🩷🩵</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fuente -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Burbujitas -->
+    <div class="bubble bubble1"></div>
+    <div class="bubble bubble2"></div>
+    <div class="bubble bubble3"></div>
+    <div class="bubble bubble4"></div>
+    <div class="bubble bubble5"></div>
+    <!-- Encabezado -->
+    <header>
+        <h1>Malla Interactiva Kinesiología UC 🩷🩵</h1>
+        <button id="theme-toggle">
+            🌙 Modo oscuro
+        </button>
+        <div class="progress-section">
+            <h3 id="contador-ramos">
+                0 / 61 ramos aprobados
+            </h3>
+            <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+            <p id="porcentaje-total">
+                0%
+            </p>
+        </div>
+    </header>
+    <!-- Estadísticas -->
+    <section class="stats">
+        <div class="stat-card">
+            📚
+            <span id="aprobados">0</span>
+            <p>Aprobados</p>
+        </div>
+        <div class="stat-card">
+            🩵
+            <span id="disponibles">0</span>
+            <p>Disponibles</p>
+        </div>
+        <div class="stat-card">
+            🔒
+            <span id="bloqueados">0</span>
+            <p>Bloqueados</p>
+        </div>
+    </section>
+    <!-- Progreso por semestre -->
+    <section class="semester-progress">
+        <h2>📈 Progreso por semestre</h2>
+        <div id="semester-progress-container"></div>
+    </section>
+    <!-- Botones -->
+    <section class="controls">
+        <button id="reset-btn">
+            ♻️ Reiniciar malla
+        </button>
+    </section>
+    <!-- Malla -->
+    <main>
+        <div id="malla-container">
+            <!-- El script.js generará aquí todos los semestres -->
+        </div>
+    </main>
+    <!-- Mensaje de internados -->
+    <div id="internado-popup">
+        <h2>🎓 ¡Felicitaciones!</h2>
+        <p>
+            Has desbloqueado los internados de 9° y 10° semestre.
+        </p>
+    </div>
+    <!-- Plantilla de tooltip -->
+    <div id="tooltip">
+        <h4>Prerrequisitos</h4>
+        <div id="tooltip-content"></div>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <p>
+            Hecho con 🩷 y 🩵 para Kinesiología UC
+        </p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
