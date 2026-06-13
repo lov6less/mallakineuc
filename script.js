@@ -1,1019 +1,860 @@
-/* ========================= */
-/* VARIABLES */
-/* ========================= */
+// =========================
+// VARIABLES
+// =========================
 
-:root{
+let cursos = [];
 
-    --rosa:#ffd9ec;
-    --rosa-fuerte:#ff9ecf;
+let aprobados =
+JSON.parse(
+localStorage.getItem("aprobados")
+) || [];
 
-    --celeste:#d9f4ff;
-    --celeste-fuerte:#89d9ff;
+let popupMostrado =
+JSON.parse(
+localStorage.getItem("popupInternadoMostrado")
+) || false;
 
-    --lavanda:#efdfff;
-    --lila-rosado:#f5d0ef;
 
-    --gris:#d7d7d7;
-    --gris-oscuro:#7d7d7d;
+// =========================
+// CONTENEDORES
+// =========================
 
-    --fondo:#fff8fc;
+const mallaContainer =
+document.getElementById(
+"malla-container"
+);
 
-    --texto:#4a4a4a;
+const tooltip =
+document.getElementById(
+"tooltip"
+);
 
-}
+const tooltipContent =
+document.getElementById(
+"tooltip-content"
+);
 
 
-/* ========================= */
-/* BODY */
-/* ========================= */
+// =========================
+// CARGAR DATA
+// =========================
 
-body{
+fetch("data.json")
 
-    background:var(--fondo);
+.then(response => response.json())
 
-    color:var(--texto);
+.then(data => {
 
-    margin:0;
+    cursos = data;
 
-    font-family:
-    "Segoe UI",
-    sans-serif;
+    crearSemestres();
 
-    overflow-x:hidden;
+    crearTarjetas();
 
-}
+    actualizarEstadoCursos();
 
+    actualizarProgreso();
 
-/* ========================= */
-/* CONTENEDOR */
-/* ========================= */
+    actualizarProgresoSemestres();
 
-.container{
+})
 
-    max-width:1800px;
+.catch(error => {
 
-    margin:auto;
-
-    padding:30px;
-
-    position:relative;
-
-    z-index:1;
-
-}
-
-
-/* ========================= */
-/* TÍTULO */
-/* ========================= */
-
-header{
-
-    text-align:center;
-
-    margin-bottom:30px;
-
-}
-
-
-h1{
-
-    font-size:2.3rem;
-
-    margin-bottom:10px;
-
-}
-
-
-header p{
-
-    opacity:0.8;
-
-}
-
-
-/* ========================= */
-/* BOTÓN MODO OSCURO */
-/* ========================= */
-
-#theme-toggle{
-
-    position:fixed;
-
-    top:20px;
-
-    right:20px;
-
-    width:55px;
-
-    height:55px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:white;
-
-    cursor:pointer;
-
-    font-size:1.3rem;
-
-    box-shadow:
-    0 4px 15px rgba(0,0,0,.1);
-
-    z-index:1000;
-
-}
-
-
-/* ========================= */
-/* PROGRESO GENERAL */
-/* ========================= */
-
-#progress-section{
-
-    margin-bottom:25px;
-
-    text-align:center;
-
-}
-
-
-#contador-ramos{
-
-    margin-bottom:10px;
-
-    font-weight:600;
-
-}
-
-
-.progress-container{
-
-    width:100%;
-
-    max-width:700px;
-
-    height:22px;
-
-    margin:auto;
-
-    background:white;
-
-    border-radius:30px;
-
-    overflow:hidden;
-
-    box-shadow:
-    0 2px 10px rgba(0,0,0,.1);
-
-}
-
-
-#progress-bar{
-
-    width:0;
-
-    height:100%;
-
-    background:
-    linear-gradient(
-        90deg,
-        var(--rosa-fuerte),
-        var(--celeste-fuerte)
+    console.error(
+    "Error cargando data.json:",
+    error
     );
 
-    border-radius:30px;
-
-    transition:1s;
-
-}
+});
 
 
-#porcentaje-total{
+// =========================
+// SEMESTRES
+// =========================
 
-    margin-top:8px;
+const ordenSemestres = [
 
-    font-weight:600;
+1,
+2,
+3,
+4,
 
-}
+5,
+6,
+7,
+8,
 
+"FG",
+9,
+10
 
-/* ========================= */
-/* ESTADÍSTICAS */
-/* ========================= */
-
-#stats{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:35px;
-
-    flex-wrap:wrap;
-
-    margin-bottom:40px;
-
-    font-size:1rem;
-
-    font-weight:600;
-
-}
+];
 
 
-/* ========================= */
-/* ESTRELLITAS */
-/* ========================= */
+// =========================
+// CREAR COLUMNAS
+// =========================
 
-#stars{
+function crearSemestres(){
 
-    position:fixed;
+    mallaContainer.innerHTML = "";
 
-    inset:0;
+    ordenSemestres.forEach(semestre => {
 
-    z-index:-1;
+        const columna =
+        document.createElement("div");
 
-    pointer-events:none;
+        columna.classList.add(
+        "semester"
+        );
 
-}
+        const titulo =
+        document.createElement("h2");
 
+        titulo.classList.add(
+        "semester-title"
+        );
 
-#stars::before{
+        titulo.textContent =
+        semestre === "FG"
+        ? "Formación General"
+        : `${semestre}° semestre`;
 
-    content:"✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦";
+        columna.appendChild(
+        titulo
+        );
 
-    position:absolute;
+        columna.id =
+        `semestre-${semestre}`;
 
-    width:100%;
+        mallaContainer.appendChild(
+        columna
+        );
 
-    height:100%;
-
-    font-size:2rem;
-
-    color:rgba(255,170,220,.45);
-
-    line-height:130px;
-
-    animation:
-    starsMove
-    80s linear infinite;
+    });
 
 }
 
 
-@keyframes starsMove{
+// =========================
+// CREAR TARJETAS
+// =========================
 
-    from{
+function crearTarjetas(){
 
-        transform:
-        translateY(0);
+    cursos.forEach(curso => {
+
+        const card =
+        document.createElement("div");
+
+        card.classList.add(
+        "course"
+        );
+
+        card.dataset.codigo =
+        curso.codigo;
+
+
+        // Internados
+
+        if(
+        curso.prerequisitos.includes(
+        "TODA_LA_CARRERA"
+        )
+        ){
+
+            card.classList.add(
+            "internado"
+            );
+
+        }
+
+
+        // Nombre
+
+        const nombre =
+        document.createElement("div");
+
+        nombre.classList.add(
+        "course-name"
+        );
+
+        nombre.textContent =
+        curso.nombre;
+
+
+        // Código
+
+        const codigo =
+        document.createElement("div");
+
+        codigo.classList.add(
+        "course-code"
+        );
+
+        codigo.textContent =
+        curso.codigo;
+
+
+        card.appendChild(
+        nombre
+        );
+
+        card.appendChild(
+        codigo
+        );
+
+
+        // Click
+
+        card.addEventListener(
+        "click",
+        () => manejarClick(curso)
+        );
+
+
+        // Tooltip
+
+        card.addEventListener(
+        "mousemove",
+        e => mostrarTooltip(
+        e,
+        curso
+        )
+        );
+
+        card.addEventListener(
+        "mouseleave",
+        ocultarTooltip
+        );
+
+
+        // Agregar a semestre
+
+        document
+        .getElementById(
+        `semestre-${curso.semestre}`
+        )
+        .appendChild(
+        card
+        );
+
+    });
+
+}// =========================
+// VERIFICAR SI UN CURSO
+// ESTÁ DESBLOQUEADO
+// =========================
+
+function cursoDisponible(curso){
+
+    // Internados
+
+    if(
+        curso.prerequisitos.includes(
+        "TODA_LA_CARRERA"
+        )
+    ){
+
+        return todaLaCarreraAprobada();
 
     }
 
-    to{
 
-        transform:
-        translateY(-120px);
-
-    }
-
-}/* ========================= */
-/* MALLA */
-/* ========================= */
-
-#malla-container{
-
-    display:grid;
-
-    grid-template-columns:
-    repeat(4,minmax(260px,1fr));
-
-    gap:30px;
-
-    align-items:start;
+    return curso.prerequisitos.every(
+        codigo =>
+        aprobados.includes(codigo)
+    );
 
 }
 
 
-/* ========================= */
-/* SEMESTRES */
-/* ========================= */
+// =========================
+// TODA LA CARRERA
+// =========================
 
-.semester{
+function todaLaCarreraAprobada(){
 
-    display:flex;
+    return cursos
 
-    flex-direction:column;
+    .filter(
+        curso =>
+        !curso.prerequisitos.includes(
+            "TODA_LA_CARRERA"
+        )
+    )
 
-    gap:15px;
-
-}
-
-
-.semester-title{
-
-    text-align:center;
-
-    font-size:1.2rem;
-
-    font-weight:700;
-
-    margin-bottom:5px;
+    .every(
+        curso =>
+        aprobados.includes(
+            curso.codigo
+        )
+    );
 
 }
 
 
-/* ========================= */
-/* TARJETAS */
-/* ========================= */
+// =========================
+// ACTUALIZAR ESTADO VISUAL
+// =========================
 
-.course{
+function actualizarEstadoCursos(){
 
-    position:relative;
+    cursos.forEach(curso => {
 
-    min-height:95px;
+        const card =
+        document.querySelector(
+        `[data-codigo="${curso.codigo}"]`
+        );
 
-    padding:15px;
-
-    border-radius:22px;
-
-    background:white;
-
-    box-shadow:
-    0 4px 15px rgba(0,0,0,.08);
-
-    cursor:pointer;
-
-    transition:
-    .5s;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-}
+        card.classList.remove(
+            "locked",
+            "available",
+            "completed"
+        );
 
 
-.course-name{
+        // Aprobado
 
-    font-size:.95rem;
+        if(
+            aprobados.includes(
+            curso.codigo
+            )
+        ){
 
-    font-weight:600;
+            card.classList.add(
+            "completed"
+            );
 
-    line-height:1.3;
+        }
 
-}
+        // Disponible
 
+        else if(
+            cursoDisponible(
+            curso
+            )
+        ){
 
-.course-code{
+            card.classList.add(
+            "available"
+            );
 
-    margin-top:8px;
+        }
 
-    font-size:.8rem;
+        // Bloqueado
 
-    opacity:.65;
+        else{
 
-}
+            card.classList.add(
+            "locked"
+            );
 
+        }
 
-/* ========================= */
-/* BLOQUEADO */
-/* ========================= */
-
-.course.locked{
-
-    background:#ececec;
-
-    color:#909090;
-
-    cursor:not-allowed;
+    });
 
 }
 
 
-/* ========================= */
-/* DISPONIBLE */
-/* ========================= */
+// =========================
+// OBTENER CURSO POR CÓDIGO
+// =========================
 
-.course.available{
+function obtenerCurso(codigo){
 
-    background:var(--celeste);
-
-    border:
-    2px solid
-    var(--celeste-fuerte);
-
-}
-
-
-/* ========================= */
-/* APROBADO */
-/* ========================= */
-
-.course.completed{
-
-    background:var(--rosa);
-
-    border:
-    2px solid
-    var(--rosa-fuerte);
-
-    box-shadow:
-
-    0 0 15px rgba(255,158,207,.5),
-
-    0 4px 15px rgba(0,0,0,.08);
+    return cursos.find(
+        curso =>
+        curso.codigo === codigo
+    );
 
 }
 
 
-/* ========================= */
-/* INTERNADOS */
-/* ========================= */
+// =========================
+// CURSOS DEPENDIENTES
+// =========================
 
-.course.internado{
+function obtenerDependientes(codigo){
 
-    background:var(--lavanda);
+    return cursos.filter(
 
-    border:
+        curso =>
 
-    2px solid
-
-    #d7a6ff;
-
-}
-
-
-.course.internado.available{
-
-    background:#efd8ff;
-
-}
-
-
-.course.internado.completed{
-
-    background:var(--lila-rosado);
-
-    border:
-
-    2px solid
-
-    #e8a2d9;
-
-    box-shadow:
-
-    0 0 18px rgba(234,170,220,.5);
-
-}
-
-
-/* ========================= */
-/* TRANSICIONES */
-/* ========================= */
-
-.course.available,
-.course.locked,
-.course.completed{
-
-    transition:
-
-    background .6s,
-
-    border .6s,
-
-    box-shadow .6s,
-
-    transform .3s;
-
-}
-
-
-/* ========================= */
-/* HOVER */
-/* ========================= */
-
-.course:hover{
-
-    transform:
-
-    translateY(-4px);
-
-}
-
-
-/* ========================= */
-/* BRILLO SUAVE */
-/* ========================= */
-
-.course.completed::after{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    border-radius:22px;
-
-    background:
-
-    linear-gradient(
-
-        135deg,
-
-        rgba(255,255,255,.35),
-
-        transparent
+        curso.prerequisitos.includes(
+            codigo
+        )
 
     );
 
-    pointer-events:none;
-
 }
 
 
-/* ========================= */
-/* POPUP INTERNADOS */
-/* ========================= */
-
-#internado-popup{
-
-    display:none;
-
-    position:fixed;
-
-    top:50%;
-
-    left:50%;
-
-    transform:
-
-    translate(-50%,-50%);
-
-    background:white;
-
-    padding:30px;
-
-    border-radius:25px;
-
-    text-align:center;
-
-    box-shadow:
-
-    0 10px 40px rgba(0,0,0,.2);
-
-    z-index:999;
-
-}
-
-
-#internado-popup h2{
-
-    color:#d38cff;
-
-}/* ========================= */
-/* TOOLTIP */
-/* ========================= */
-
-#tooltip{
-
-    position:fixed;
-
-    opacity:0;
-
-    visibility:hidden;
-
-    min-width:260px;
-
-    max-width:320px;
-
-    padding:18px;
-
-    background:white;
-
-    border-radius:20px;
-
-    box-shadow:
-    0 10px 25px rgba(0,0,0,.12);
-
-    z-index:1000;
-
-    transition:.25s;
-
-    pointer-events:none;
-
-}
-
-
-#tooltip.visible{
-
-    opacity:1;
-
-    visibility:visible;
-
-}
-
-
-#tooltip h3{
-
-    margin-top:0;
-
-    margin-bottom:12px;
-
-    font-size:1rem;
-
-}
-
-
-#tooltip-content{
-
-    line-height:1.7;
-
-    font-size:.95rem;
-
-}
-
-
-/* ========================= */
-/* ANIMACIÓN APROBADO */
-/* ========================= */
-
-@keyframes completedGlow{
-
-    0%{
-
-        transform:scale(1);
-
-    }
-
-    50%{
-
-        transform:scale(1.03);
-
-    }
-
-    100%{
-
-        transform:scale(1);
-
-    }
-
-}
-
-
-.course.completed{
-
-    animation:
-    completedGlow .6s ease;
-
-}
-
-
-/* ========================= */
-/* PROGRESO POR SEMESTRE */
-/* ========================= */
-
-#semester-progress{
-
-    margin-top:70px;
-
-}
-
-
-#semester-progress h2{
-
-    text-align:center;
-
-    margin-bottom:35px;
-
-}
-
-
-#semester-progress-container{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:18px;
-
-}
-
-
-.sem-progress{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-}
-
-
-.sem-label{
-
-    width:120px;
-
-    font-weight:600;
-
-}
-
-
-.sem-bar-container{
-
-    flex:1;
-
-    height:18px;
-
-    background:white;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-    box-shadow:
-    0 2px 10px rgba(0,0,0,.08);
-
-}
-
-
-.sem-bar{
-
-    height:100%;
-
-    width:0;
-
-    background:
-
-    linear-gradient(
-        90deg,
-        var(--rosa-fuerte),
-        var(--celeste-fuerte)
+// =========================
+// DEPENDIENTES RECURSIVOS
+// =========================
+
+function obtenerDependientesRecursivos(
+codigo,
+visitados = new Set()
+){
+
+    const dependientes =
+    obtenerDependientes(
+    codigo
     );
 
-    transition:1s;
+    let resultado = [];
 
-}
+    dependientes.forEach(curso => {
 
+        if(
+        !visitados.has(
+        curso.codigo
+        )
+        ){
 
-.sem-percent{
+            visitados.add(
+            curso.codigo
+            );
 
-    width:55px;
+            resultado.push(
+            curso
+            );
 
-    text-align:right;
+            resultado = [
 
-    font-weight:600;
+                ...resultado,
 
-}
+                ...obtenerDependientesRecursivos(
+                    curso.codigo,
+                    visitados
+                )
 
+            ];
 
-/* ========================= */
-/* BOTÓN VOLVER ARRIBA */
-/* ========================= */
+        }
 
-#back-to-top{
+    });
 
-    position:fixed;
+    return resultado;
 
-    bottom:25px;
+}// =========================
+// MANEJAR CLICK
+// =========================
 
-    right:25px;
+function manejarClick(curso){
 
-    width:55px;
+    if(
+        aprobados.includes(
+        curso.codigo
+        )
+    ){
 
-    height:55px;
+        desaprobarCurso(
+        curso
+        );
 
-    border:none;
+    }
 
-    border-radius:50%;
+    else{
 
-    background:white;
+        if(
+        cursoDisponible(
+        curso
+        )
+        ){
 
-    cursor:pointer;
+            aprobarCurso(
+            curso
+            );
 
-    font-size:1.4rem;
-
-    box-shadow:
-    0 4px 15px rgba(0,0,0,.15);
-
-    z-index:1000;
-
-    transition:.3s;
-
-}
-
-
-#back-to-top:hover{
-
-    transform:
-
-    translateY(-4px);
-
-}
-
-
-/* ========================= */
-/* SCROLL SUAVE */
-/* ========================= */
-
-html{
-
-    scroll-behavior:smooth;
-
-}/* ========================= */
-/* MODO OSCURO */
-/* ========================= */
-
-body.dark{
-
-    --fondo:#1e1e28;
-
-    --texto:#f3f3f3;
-
-    background:var(--fondo);
-
-    color:var(--texto);
-
-}
-
-
-body.dark .course{
-
-    background:#2b2b36;
-
-    box-shadow:
-    0 4px 15px rgba(0,0,0,.25);
-
-}
-
-
-body.dark .course.locked{
-
-    background:#3a3a46;
-
-    color:#9a9aa5;
-
-}
-
-
-body.dark .course.available{
-
-    background:#2f4250;
-
-}
-
-
-body.dark .course.completed{
-
-    background:#50354c;
-
-}
-
-
-body.dark .course.internado{
-
-    background:#47395c;
-
-}
-
-
-body.dark .course.internado.completed{
-
-    background:#65485f;
-
-}
-
-
-body.dark .progress-container,
-body.dark .sem-bar-container,
-body.dark #tooltip,
-body.dark #internado-popup,
-body.dark #theme-toggle,
-body.dark #back-to-top{
-
-    background:#2a2a35;
-
-    color:white;
-
-}
-
-
-body.dark #stars::before{
-
-    color:rgba(255,255,255,.12);
-
-}
-
-
-/* ========================= */
-/* TABLET */
-/* ========================= */
-
-@media (max-width:1200px){
-
-    #malla-container{
-
-        grid-template-columns:
-        repeat(3,minmax(250px,1fr));
+        }
 
     }
 
 }
 
 
-/* ========================= */
-/* CELULAR */
-/* ========================= */
+// =========================
+// APROBAR CURSO
+// =========================
 
-@media (max-width:850px){
+function aprobarCurso(curso){
 
-    #malla-container{
+    aprobados.push(
+    curso.codigo
+    );
 
-        grid-template-columns:
-        repeat(2,minmax(220px,1fr));
+    guardarProgreso();
 
-    }
+    actualizarEstadoCursos();
 
-    #stats{
+    actualizarProgreso();
 
-        gap:20px;
+    actualizarProgresoSemestres();
 
-        font-size:.95rem;
-
-    }
-
-}
-
-
-@media (max-width:600px){
-
-    #malla-container{
-
-        grid-template-columns:1fr;
-
-    }
-
-    .container{
-
-        padding:18px;
-
-    }
-
-    h1{
-
-        font-size:1.8rem;
-
-    }
-
-    .semester-title{
-
-        font-size:1.1rem;
-
-    }
-
-    .course{
-
-        min-height:90px;
-
-    }
+    verificarInternados();
 
 }
 
 
-/* ========================= */
-/* AJUSTES FINALES */
-/* ========================= */
+// =========================
+// DESAPROBAR CURSO
+// =========================
 
-*{
+function desaprobarCurso(curso){
 
-    box-sizing:border-box;
+    const afectados =
+
+    obtenerDependientesRecursivos(
+    curso.codigo
+    );
+
+
+    if(
+    afectados.length > 0
+    ){
+
+        const nombres =
+
+        afectados
+
+        .map(
+        curso =>
+        `• ${curso.nombre}`
+        )
+
+        .join("\n");
+
+
+        const confirmar =
+
+        confirm(
+
+`⚠️ Desaprobar "${curso.nombre}" también desaprobará:
+
+${nombres}
+
+¿Deseas continuar?`
+
+        );
+
+
+        if(
+        !confirmar
+        ){
+
+            return;
+
+        }
+
+    }
+
+
+    const eliminar = [
+
+        curso.codigo,
+
+        ...afectados.map(
+        curso =>
+        curso.codigo
+        )
+
+    ];
+
+
+    aprobados =
+
+    aprobados.filter(
+
+        codigo =>
+
+        !eliminar.includes(
+        codigo
+        )
+
+    );
+
+
+    guardarProgreso();
+
+    actualizarEstadoCursos();
+
+    actualizarProgreso();
+
+    actualizarProgresoSemestres();
 
 }
 
 
-button{
+// =========================
+// GUARDAR
+// =========================
 
-    font-family:inherit;
+function guardarProgreso(){
+
+    localStorage.setItem(
+
+        "aprobados",
+
+        JSON.stringify(
+        aprobados
+        )
+
+    );
 
 }
 
 
-.course,
-#theme-toggle,
-#back-to-top{
+// =========================
+// REINICIAR POPUP
+// =========================
 
-    user-select:none;
+function reiniciarPopupInternado(){
+
+    popupMostrado = false;
+
+    localStorage.setItem(
+
+        "popupInternadoMostrado",
+
+        JSON.stringify(
+        false
+        )
+
+    );
+
+}// =========================
+// PROGRESO GENERAL
+// =========================
+
+function actualizarProgreso(){
+
+    const total = cursos.length;
+
+    const completados =
+    aprobados.length;
+
+    const porcentaje =
+    Math.round(
+        completados /
+        total *
+        100
+    );
+
+
+    document
+    .getElementById(
+    "contador-ramos"
+    )
+    .textContent =
+
+    `${completados} / ${total} ramos aprobados`;
+
+
+    document
+    .getElementById(
+    "progress-bar"
+    )
+    .style.width =
+
+    `${porcentaje}%`;
+
+
+    document
+    .getElementById(
+    "porcentaje-total"
+    )
+    .textContent =
+
+    `${porcentaje}%`;
+
+
+    actualizarEstadisticas();
 
 }
 
 
-.course:active{
+// =========================
+// ESTADÍSTICAS
+// =========================
 
-    transform:scale(.98);
+function actualizarEstadisticas(){
+
+    let disponibles = 0;
+
+    let bloqueados = 0;
+
+
+    cursos.forEach(curso => {
+
+        if(
+        aprobados.includes(
+        curso.codigo
+        )
+        ){
+
+            return;
+
+        }
+
+
+        if(
+        cursoDisponible(
+        curso
+        )
+        ){
+
+            disponibles++;
+
+        }
+
+        else{
+
+            bloqueados++;
+
+        }
+
+    });
+
+
+    document
+    .getElementById(
+    "aprobados"
+    )
+    .textContent =
+    aprobados.length;
+
+
+    document
+    .getElementById(
+    "disponibles"
+    )
+    .textContent =
+    disponibles;
+
+
+    document
+    .getElementById(
+    "bloqueados"
+    )
+    .textContent =
+    bloqueados;
+
+}
+
+
+// =========================
+// PROGRESO POR SEMESTRE
+// =========================
+
+function actualizarProgresoSemestres(){
+
+    const container =
+
+    document.getElementById(
+    "semester-progress-container"
+    );
+
+    container.innerHTML = "";
+
+
+    ordenSemestres.forEach(semestre => {
+
+        const cursosSemestre =
+
+        cursos.filter(
+        curso =>
+        curso.semestre === semestre
+        );
+
+
+        if(
+        cursosSemestre.length === 0
+        ){
+
+            return;
+
+        }
+
+
+        const total =
+
+        cursosSemestre.length;
+
+
+        const completados =
+
+        cursosSemestre.filter(
+        curso =>
+        aprobados.includes(
+        curso.codigo
+        )
+        ).length;
+
+
+        const porcentaje =
+
+        Math.round(
+            completados /
+            total *
+            100
+        );
+
+
+        const fila =
+        document.createElement(
+        "div"
+        );
+
+        fila.classList.add(
+        "sem-progress"
+        );
+
+
+        fila.innerHTML =
+
+        `
+
+        <div class="sem-label">
+
+        ${
+        semestre === "FG"
+
+        ? "FG"
+
+        : `${semestre}° semestre`
+        }
+
+        </div>
+
+        <div class="sem-bar-container">
+
+            <div
+            class="sem-bar"
+            style="
+            width:${porcentaje}%"
+            >
+
+            </div>
+
+        </div>
+
+        <div class="sem-percent">
+
+            ${porcentaje}%
+
+        </div>
+
+        `;
+
+
+        container.appendChild(
+        fila
+        );
+
+    });
 
 }
