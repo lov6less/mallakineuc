@@ -857,4 +857,157 @@ function actualizarProgresoSemestres(){
 
     });
 
+}// =========================
+// TOOLTIP
+// =========================
+
+function mostrarTooltip(evento, curso){
+
+    if(curso.prerequisitos.length === 0){
+
+        tooltip.classList.remove("visible");
+        return;
+
+    }
+
+    tooltipContent.innerHTML = "";
+
+    curso.prerequisitos.forEach(codigo => {
+
+        const linea = document.createElement("div");
+
+        if(codigo === "TODA_LA_CARRERA"){
+
+            linea.textContent =
+            "🎓 Aprobar toda la carrera";
+
+        }
+
+        else{
+
+            const prerreq = obtenerCurso(codigo);
+
+            linea.textContent =
+            (aprobados.includes(codigo) ? "✅ " : "❌ ")
+            +
+            prerreq.nombre;
+
+        }
+
+        tooltipContent.appendChild(linea);
+
+    });
+
+    tooltip.style.left =
+    `${evento.clientX + 20}px`;
+
+    tooltip.style.top =
+    `${evento.clientY + 20}px`;
+
+    tooltip.classList.add("visible");
+
 }
+
+
+function ocultarTooltip(){
+
+    tooltip.classList.remove("visible");
+
+}
+
+
+// =========================
+// INTERNADOS
+// =========================
+
+function verificarInternados(){
+
+    if(
+        todaLaCarreraAprobada()
+        &&
+        !popupMostrado
+    ){
+
+        document.getElementById(
+        "internado-popup"
+        ).style.display = "block";
+
+        popupMostrado = true;
+
+        localStorage.setItem(
+            "popupInternadoMostrado",
+            JSON.stringify(true)
+        );
+
+        setTimeout(() => {
+
+            document.getElementById(
+            "internado-popup"
+            ).style.display = "none";
+
+        }, 4000);
+
+    }
+
+}
+
+
+// =========================
+// MODO OSCURO
+// =========================
+
+const themeButton =
+document.getElementById(
+"theme-toggle"
+);
+
+if(
+localStorage.getItem("darkMode")
+=== "true"
+){
+
+    document.body.classList.add(
+    "dark"
+    );
+
+}
+
+themeButton.addEventListener(
+"click",
+() => {
+
+    document.body.classList.toggle(
+    "dark"
+    );
+
+    localStorage.setItem(
+        "darkMode",
+        document.body.classList.contains(
+        "dark"
+        )
+    );
+
+});
+
+
+// =========================
+// VOLVER ARRIBA
+// =========================
+
+document
+.getElementById(
+"back-to-top"
+)
+.addEventListener(
+"click",
+() => {
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+});
