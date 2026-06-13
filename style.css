@@ -923,7 +923,7 @@ body.dark #stars::before{
     #malla-container{
 
         grid-template-columns:
-        repeat(3,minmax(250px,1fr));
+        repeat(3,1fr);
 
     }
 
