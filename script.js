@@ -1049,4 +1049,48 @@ document
 
     });
 
+});// =========================
+// REINICIAR MALLA
+// =========================
+
+document
+.getElementById(
+"reset-button"
+)
+.addEventListener(
+"click",
+() => {
+
+    const confirmar = confirm(
+
+`⚠️ ¿Seguro que deseas reiniciar la malla?
+
+Se perderán todos los ramos aprobados.`
+
+    );
+
+    if(!confirmar){
+
+        return;
+
+    }
+
+    aprobados = [];
+
+    popupMostrado = false;
+
+    localStorage.removeItem(
+    "aprobados"
+    );
+
+    localStorage.removeItem(
+    "popupInternadoMostrado"
+    );
+
+    actualizarEstadoCursos();
+
+    actualizarProgreso();
+
+    actualizarProgresoSemestres();
+
 });
