@@ -592,7 +592,8 @@ header p{
 
     min-width:260px;
 
-    max-width:320px;
+    max-width:280px;
+    word-wrap: break-word;
 
     padding:18px;
 
