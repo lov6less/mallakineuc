@@ -50,17 +50,20 @@ body{
 
 .container{
 
-    max-width:1800px;
+    width:95%;
+
+    max-width:1600px;
 
     margin:auto;
 
-    padding:30px;
+    padding:20px;
 
     position:relative;
 
     z-index:1;
 
 }
+
 
 
 /* ========================= */
