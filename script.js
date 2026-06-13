@@ -898,11 +898,50 @@ function mostrarTooltip(evento, curso){
 
     });
 
-    tooltip.style.left =
-    `${evento.clientX + 20}px`;
+    const margen = 20;
 
-    tooltip.style.top =
-    `${evento.clientY + 20}px`;
+let left = evento.clientX + margen;
+let top = evento.clientY + margen;
+
+const anchoTooltip = 320;
+const altoTooltip = 250;
+
+
+// Evitar que salga por la derecha
+
+if (
+left + anchoTooltip >
+window.innerWidth
+){
+
+    left =
+    evento.clientX -
+    anchoTooltip -
+    margen;
+
+}
+
+
+// Evitar que salga por abajo
+
+if (
+top + altoTooltip >
+window.innerHeight
+){
+
+    top =
+    evento.clientY -
+    altoTooltip -
+    margen;
+
+}
+
+
+tooltip.style.left =
+`${left}px`;
+
+tooltip.style.top =
+`${top}px`;
 
     tooltip.classList.add("visible");
 
