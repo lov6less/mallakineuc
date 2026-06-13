@@ -1054,12 +1054,20 @@ document
 // =========================
 
 document
-.getElementById(
+const resetButton =
+document.getElementById(
 "reset-button"
-)
-.addEventListener(
+);
+
+console.log(resetButton);
+
+resetButton?.addEventListener(
 "click",
 () => {
+
+    alert("Botón funcionando 🎉");
+
+});
 
     const confirmar = confirm(
 
