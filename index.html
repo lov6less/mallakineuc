@@ -7,8 +7,7 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        content="width=device-width, initial-scale=1.0">
 
     <title>
         Malla Interactiva Kinesiología UC
@@ -16,28 +15,63 @@
 
     <link
         rel="stylesheet"
-        href="style.css"
-    >
+        href="style.css">
 
 </head>
 
 <body>
 
-    <!-- Estrellitas -->
+    <!-- Destellos -->
     <div id="stars"></div>
 
-    <!-- Botón modo oscuro -->
-   <div id="floating-buttons">
 
-    <button id="theme-toggle">
-        🌙
-    </button>
+    <!-- Botones flotantes -->
 
-    <button id="reset-button">
-        🔄
-    </button>
+    <div id="floating-buttons">
 
-</div>
+        <button
+            id="theme-toggle"
+            title="Modo oscuro">
+
+            🌙
+
+        </button>
+
+
+        <button
+            id="reset-button"
+            title="Reiniciar malla">
+
+            🔄
+
+        </button>
+
+
+        <button
+            id="export-button"
+            title="Exportar progreso">
+
+            💾
+
+        </button>
+
+
+        <label
+            id="import-button"
+            title="Importar progreso">
+
+            📂
+
+            <input
+                type="file"
+                id="import-file"
+                accept=".json"
+                hidden>
+
+        </label>
+
+    </div>
+
 
     <div class="container">
 
@@ -45,13 +79,16 @@
 
             <h1>
 
-                🩷 Malla Interactiva Kinesiología UC 🩵
+                Malla Interactiva
+                Kinesiología UC
 
             </h1>
 
             <p>
 
-                Marca los ramos aprobados y sigue tu progreso.
+                Marca los ramos aprobados
+                y desbloquea automáticamente
+                los siguientes.
 
             </p>
 
@@ -68,6 +105,7 @@
 
             </div>
 
+
             <div class="progress-container">
 
                 <div id="progress-bar">
@@ -75,6 +113,7 @@
                 </div>
 
             </div>
+
 
             <div id="porcentaje-total">
 
@@ -89,44 +128,40 @@
 
         <section id="stats">
 
-            <span>
+            <div>
 
-                📚
+                ✅ Aprobados:
                 <span id="aprobados">
 
                     0
 
                 </span>
 
-                aprobados
+            </div>
 
-            </span>
 
-            <span>
+            <div>
 
-                🩵
+                🩵 Disponibles:
                 <span id="disponibles">
 
                     0
 
                 </span>
 
-                disponibles
+            </div>
 
-            </span>
 
-            <span>
+            <div>
 
-                🔒
+                🔒 Bloqueados:
                 <span id="bloqueados">
 
                     0
 
                 </span>
 
-                bloqueados
-
-            </span>
+            </div>
 
         </section>
 
@@ -139,12 +174,6 @@
 
         <div id="tooltip">
 
-            <h3>
-
-                Prerrequisitos
-
-            </h3>
-
             <div id="tooltip-content">
 
             </div>
@@ -156,32 +185,23 @@
 
         <div id="internado-popup">
 
-            <h2>
-
-                🎓 ¡Internados desbloqueados!
-
-            </h2>
-
-            <p>
-
-                ¡Felicitaciones! Has aprobado toda la carrera y puedes acceder a los internados.
-
-            </p>
+            🎉 ¡Has desbloqueado los internados!
 
         </div>
 
 
         <!-- Progreso por semestre -->
 
-        <section id="semester-progress">
+        <section id="semester-progress-section">
 
             <h2>
 
-                📈 Progreso por semestre
+                Progreso por semestre
 
             </h2>
 
-            <div id="semester-progress-container">
+            <div
+                id="semester-progress-container">
 
             </div>
 
@@ -190,16 +210,19 @@
     </div>
 
 
-    <!-- Botón volver arriba -->
+    <!-- Volver arriba -->
 
-    <button id="back-to-top">
+    <button
+        id="back-to-top"
+        title="Volver arriba">
 
-        ↑
+        ⬆️
 
     </button>
 
 
-    <script src="script.js">
+    <script
+        src="script.js">
 
     </script>
 
