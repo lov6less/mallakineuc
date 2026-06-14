@@ -1,406 +1,339 @@
 [
   {
-    "nombre": "Morfología General",
     "codigo": "MEK101B",
+    "nombre": "Morfología General",
     "semestre": 1,
     "prerequisitos": []
   },
   {
-    "nombre": "Cálculo",
     "codigo": "MAT1023",
+    "nombre": "Cálculo",
     "semestre": 1,
     "prerequisitos": []
   },
   {
-    "nombre": "Biología de la célula",
     "codigo": "BIO141C",
+    "nombre": "Biología de la Célula",
     "semestre": 1,
     "prerequisitos": []
   },
   {
-    "nombre": "Química",
     "codigo": "QIM210K",
+    "nombre": "Química",
     "semestre": 1,
     "prerequisitos": []
   },
   {
-    "nombre": "Introducción a la Kinesiología",
     "codigo": "KIN101A",
+    "nombre": "Introducción a la Kinesiología",
     "semestre": 1,
     "prerequisitos": []
   },
   {
-    "nombre": "Fundamentos psicológicos para kinesiología",
     "codigo": "MEK102",
+    "nombre": "Fundamentos Psicológicos para Kinesiología",
     "semestre": 1,
     "prerequisitos": []
   },
 
   {
-    "nombre": "Morfología de sistemas",
     "codigo": "KIN102B",
+    "nombre": "Morfología de Sistemas",
     "semestre": 2,
     "prerequisitos": ["MEK101B"]
   },
   {
-    "nombre": "Física",
     "codigo": "FIS109K",
+    "nombre": "Física",
     "semestre": 2,
     "prerequisitos": ["MAT1023"]
   },
   {
-    "nombre": "Fisiología",
     "codigo": "BIO135K",
+    "nombre": "Fisiología",
     "semestre": 2,
     "prerequisitos": ["BIO141C"]
   },
   {
-    "nombre": "Bioquímica general",
     "codigo": "QIM202K",
+    "nombre": "Bioquímica General",
     "semestre": 2,
     "prerequisitos": ["QIM210K"]
   },
 
   {
-    "nombre": "Ciclo vital",
     "codigo": "KIN202A",
+    "nombre": "Ciclo Vital",
     "semestre": 3,
     "prerequisitos": ["MEK102"]
   },
   {
-    "nombre": "Fisiología del ejercicio",
     "codigo": "KIN201A",
+    "nombre": "Fisiología del Ejercicio",
     "semestre": 3,
-    "prerequisitos": [
-      "BIO135K",
-      "QIM202K"
-    ]
+    "prerequisitos": ["BIO135K", "QIM202K"]
   },
   {
-    "nombre": "Fisiopatología general y de sistemas",
     "codigo": "MEK202B",
+    "nombre": "Fisiopatología General y de Sistemas",
     "semestre": 3,
-    "prerequisitos": ["BIO135K"]
+    "prerequisitos": []
   },
   {
-    "nombre": "Neurociencias del movimiento",
     "codigo": "KIN208",
+    "nombre": "Neurociencias del Movimiento Humano",
     "semestre": 3,
-    "prerequisitos": ["KIN102B"]
+    "prerequisitos": []
   },
   {
-    "nombre": "Bioestadística",
     "codigo": "MEK201B",
+    "nombre": "Bioestadística",
     "semestre": 3,
     "prerequisitos": ["MAT1023"]
   },
-{
-  "nombre": "Análisis del movimiento",
-  "codigo": "KIN204A",
-  "semestre": 4,
-  "prerequisitos": [
-    "KIN208",
-    "FIS109K"
-  ]
-},
-{
-  "nombre": "Fisiología clínica del ejercicio",
-  "codigo": "KIN203A",
-  "semestre": 4,
-  "prerequisitos": [
-    "KIN201A"
-  ]
-},
-{
-  "nombre": "Bases de la comunicación y la entrevista clínica",
-  "codigo": "KIN207",
-  "semestre": 4,
-  "prerequisitos": [
-    "MEK102"
-  ]
-},
-{
-  "nombre": "Patología",
-  "codigo": "KIN210",
-  "semestre": 4,
-  "prerequisitos": [
-    "MEK202B"
-  ]
-},
-{
-  "nombre": "Bioética",
-  "codigo": "KIN310",
-  "semestre": 4,
-  "prerequisitos": []
-},
+  {
+    "codigo": "KIN204A",
+    "nombre": "Análisis del Movimiento",
+    "semestre": 4,
+    "prerequisitos": ["KIN208", "FIS109K"]
+  },
+  {
+    "codigo": "KIN203A",
+    "nombre": "Fisiología Clínica del Ejercicio",
+    "semestre": 4,
+    "prerequisitos": ["KIN201A"]
+  },
+  {
+    "codigo": "KIN207",
+    "nombre": "Bases de la Comunicación y la Entrevista Clínica",
+    "semestre": 4,
+    "prerequisitos": ["MEK102"]
+  },
+  {
+    "codigo": "KIN210",
+    "nombre": "Patología",
+    "semestre": 4,
+    "prerequisitos": ["MEK202B"]
+  },
+  {
+    "codigo": "KIN310",
+    "nombre": "Bioética",
+    "semestre": 4,
+    "prerequisitos": []
+  },
 
-{
-  "nombre": "Razonamiento clínico y fundamentos de la evaluación",
-  "codigo": "KIN313",
-  "semestre": 5,
-  "prerequisitos": [
-    "KIN204A",
-    "KIN207",
-    "KIN210"
-  ]
-},
-{
-  "nombre": "Gestión en organizaciones de salud",
-  "codigo": "MEK401B",
-  "semestre": 5,
-  "prerequisitos": []
-},
-{
-  "nombre": "Kinesiología basada en la evidencia",
-  "codigo": "KIN311",
-  "semestre": 5,
-  "prerequisitos": [
-    "MEK201B"
-  ]
-},
-{
-  "nombre": "Salud pública",
-  "codigo": "KIN309",
-  "semestre": 5,
-  "prerequisitos": [
-    "MEK201B"
-  ]
-},
-{
-  "nombre": "Farmacología para kinesiología",
-  "codigo": "MEK204C",
-  "semestre": 5,
-  "prerequisitos": [
-    "QIM202K",
-    "MEK202B"
-  ]
-},
+  {
+    "codigo": "KIN313",
+    "nombre": "Razonamiento Clínico y Fundamentos de la Evaluación",
+    "semestre": 5,
+    "prerequisitos": ["KIN204A", "KIN207", "KIN210"]
+  },
+  {
+    "codigo": "MEK401B",
+    "nombre": "Gestión en Organizaciones de Salud",
+    "semestre": 5,
+    "prerequisitos": []
+  },
+  {
+    "codigo": "KIN311",
+    "nombre": "Kinesiología Basada en la Evidencia",
+    "semestre": 5,
+    "prerequisitos": ["MEK201B"]
+  },
+  {
+    "codigo": "KIN309",
+    "nombre": "Salud Pública",
+    "semestre": 5,
+    "prerequisitos": ["MEK201B"]
+  },
+  {
+    "codigo": "MEK204C",
+    "nombre": "Farmacología para Kinesiología",
+    "semestre": 5,
+    "prerequisitos": ["QIM202K", "MEK202B"]
+  },
+  {
+    "codigo": "KIN306B",
+    "nombre": "Evaluación en Kinesiología Musculoesquelética",
+    "semestre": 6,
+    "prerequisitos": ["KIN204A", "KIN313"]
+  },
+  {
+    "codigo": "KIN305B",
+    "nombre": "Evaluación en Neurokinesiología",
+    "semestre": 6,
+    "prerequisitos": ["KIN202A", "KIN204A", "KIN313"]
+  },
+  {
+    "codigo": "KIN304B",
+    "nombre": "Evaluación en Kinesiología Cardiorrespiratoria",
+    "semestre": 6,
+    "prerequisitos": ["KIN203A", "KIN313"]
+  },
+  {
+    "codigo": "KIN312",
+    "nombre": "Atención Primaria en Salud",
+    "semestre": 6,
+    "prerequisitos": ["KIN309"]
+  },
+  {
+    "codigo": "OPT1",
+    "nombre": "Optativo de Profundización",
+    "semestre": 6,
+    "prerequisitos": []
+  },
 
-{
-  "nombre": "Evaluación en kinesiología musculoesquelética",
-  "codigo": "KIN306B",
-  "semestre": 6,
-  "prerequisitos": [
-    "KIN204A",
-    "KIN313"
-  ]
-},
-{
-  "nombre": "Evaluación en neurokinesiología",
-  "codigo": "KIN305B",
-  "semestre": 6,
-  "prerequisitos": [
-    "KIN202A",
-    "KIN204A",
-    "KIN313"
-  ]
-},
-{
-  "nombre": "Evaluación en kinesiología cardiorrespiratoria",
-  "codigo": "KIN304B",
-  "semestre": 6,
-  "prerequisitos": [
-    "KIN203A",
-    "KIN313"
-  ]
-},
-{
-  "nombre": "Atención primaria en salud",
-  "codigo": "KIN12",
-  "semestre": 6,
-  "prerequisitos": [
-    "KIN309"
-  ]
-},
-{
-  "nombre": "Optativo de profundización I",
-  "codigo": "OPT1",
-  "semestre": 6,
-  "prerequisitos": []
-},
-{
-  "nombre": "Kinesiología musculoesquelética I",
-  "codigo": "KIN403A",
-  "semestre": 7,
-  "prerequisitos": [
-    "KIN306B"
-  ]
-},
-{
-  "nombre": "Intervención en neurokinesiología I",
-  "codigo": "KIN402A",
-  "semestre": 7,
-  "prerequisitos": [
-    "KIN305B"
-  ]
-},
-{
-  "nombre": "Kinesiología cardiorrespiratoria I",
-  "codigo": "KIN401A",
-  "semestre": 7,
-  "prerequisitos": [
-    "KIN304B"
-  ]
-},
-{
-  "nombre": "Rehabilitación basada en la comunidad",
-  "codigo": "KIN411",
-  "semestre": 7,
-  "prerequisitos": [
-    "KIN12"
-  ]
-},
-{
-  "nombre": "Investigación en kinesiología I",
-  "codigo": "KIN410B",
-  "semestre": 7,
-  "prerequisitos": [
-    "KIN311"
-  ]
-},
+  {
+    "codigo": "KIN403A",
+    "nombre": "Kinesiología Musculoesquelética I",
+    "semestre": 7,
+    "prerequisitos": ["KIN306B"]
+  },
+  {
+    "codigo": "KIN402A",
+    "nombre": "Intervención en Neurokinesiología I",
+    "semestre": 7,
+    "prerequisitos": ["KIN305B"]
+  },
+  {
+    "codigo": "KIN401A",
+    "nombre": "Kinesiología Cardiorrespiratoria I",
+    "semestre": 7,
+    "prerequisitos": ["KIN304B"]
+  },
+  {
+    "codigo": "KIN411",
+    "nombre": "Rehabilitación Basada en la Comunidad",
+    "semestre": 7,
+    "prerequisitos": ["KIN12"]
+  },
+  {
+    "codigo": "KIN410B",
+    "nombre": "Investigación en Kinesiología I",
+    "semestre": 7,
+    "prerequisitos": ["KIN311"]
+  },
 
-{
-  "nombre": "Kinesiología musculoesquelética II",
-  "codigo": "KIN407A",
-  "semestre": 8,
-  "prerequisitos": [
-    "KIN403A"
-  ]
-},
-{
-  "nombre": "Intervención en neurokinesiología II",
-  "codigo": "KIN405A",
-  "semestre": 8,
-  "prerequisitos": [
-    "KIN402A"
-  ]
-},
-{
-  "nombre": "Kinesiología cardiorrespiratoria II",
-  "codigo": "KIN404A",
-  "semestre": 8,
-  "prerequisitos": [
-    "KIN304B"
-  ]
-},
-{
-  "nombre": "Investigación en kinesiología II",
-  "codigo": "KIN409A",
-  "semestre": 8,
-  "prerequisitos": [
-    "KIN410B"
-  ]
-},
-{
-  "nombre": "Optativo de profundización II",
-  "codigo": "OPT2",
-  "semestre": 8,
-  "prerequisitos": []
-},
+  {
+    "codigo": "KIN407A",
+    "nombre": "Kinesiología Musculoesquelética II",
+    "semestre": 8,
+    "prerequisitos": ["KIN403A"]
+  },
+  {
+    "codigo": "KIN405A",
+    "nombre": "Intervención en Neurokinesiología II",
+    "semestre": 8,
+    "prerequisitos": ["KIN402A"]
+  },
+  {
+    "codigo": "KIN404A",
+    "nombre": "Kinesiología Cardiorrespiratoria II",
+    "semestre": 8,
+    "prerequisitos": ["KIN304B"]
+  },
+  {
+    "codigo": "KIN409A",
+    "nombre": "Investigación en Kinesiología II",
+    "semestre": 8,
+    "prerequisitos": ["KIN410B"]
+  },
+  {
+    "codigo": "OPT2",
+    "nombre": "Optativo de Profundización",
+    "semestre": 8,
+    "prerequisitos": []
+  },
+  {
+    "codigo": "FG_TEO",
+    "nombre": "Formación Teológica",
+    "semestre": "FG",
+    "prerequisitos": []
+  },
+  {
+    "codigo": "FIL2001",
+    "nombre": "Filosofía: ¿Para qué?",
+    "semestre": "FG",
+    "prerequisitos": []
+  },
+  {
+    "codigo": "FG_ART",
+    "nombre": "Artes",
+    "semestre": "FG",
+    "prerequisitos": []
+  },
+  {
+    "codigo": "FG_HUM",
+    "nombre": "Humanidades",
+    "semestre": "FG",
+    "prerequisitos": []
+  },
+  {
+    "codigo": "FG_SOC",
+    "nombre": "Ciencias Sociales",
+    "semestre": "FG",
+    "prerequisitos": []
+  },
+  {
+    "codigo": "FG_CYT",
+    "nombre": "Ciencia y Tecnología",
+    "semestre": "FG",
+    "prerequisitos": []
+  },
+  {
+    "codigo": "FG_ECO",
+    "nombre": "Ecología Integral y Sustentabilidad",
+    "semestre": "FG",
+    "prerequisitos": []
+  },
+  {
+    "codigo": "FG_LIB",
+    "nombre": "10 Créditos Libres",
+    "semestre": "FG",
+    "prerequisitos": []
+  },
 
-{
-  "nombre": "Formación teológica",
-  "codigo": "FG1",
-  "semestre": "FG",
-  "prerequisitos": []
-},
-{
-  "nombre": "Filosofía: ¿Para qué?",
-  "codigo": "FIL2001",
-  "semestre": "FG",
-  "prerequisitos": []
-},
-{
-  "nombre": "Artes",
-  "codigo": "FG2",
-  "semestre": "FG",
-  "prerequisitos": []
-},
-{
-  "nombre": "Humanidades",
-  "codigo": "FG3",
-  "semestre": "FG",
-  "prerequisitos": []
-},
-{
-  "nombre": "Ciencias sociales",
-  "codigo": "FG4",
-  "semestre": "FG",
-  "prerequisitos": []
-},
-{
-  "nombre": "Ciencia y tecnología",
-  "codigo": "FG5",
-  "semestre": "FG",
-  "prerequisitos": []
-},
-{
-  "nombre": "Ecología Integral y sustentabilidad",
-  "codigo": "FG6",
-  "semestre": "FG",
-  "prerequisitos": []
-},
-{
-  "nombre": "10 créditos libres",
-  "codigo": "FG7",
-  "semestre": "FG",
-  "prerequisitos": []
-},
-{
-  "nombre": "Internado: Kinesiología cardiorrespiratoria infantil",
-  "codigo": "KIN504B",
-  "semestre": 9,
-  "prerequisitos": [
-    "TODA_LA_CARRERA"
-  ]
-},
-{
-  "nombre": "Internado: Neurokinesiología infantil",
-  "codigo": "KIN506A",
-  "semestre": 9,
-  "prerequisitos": [
-    "TODA_LA_CARRERA"
-  ]
-},
-{
-  "nombre": "Internado: Kinesiología cardiorrespiratoria adulto",
-  "codigo": "KIN502B",
-  "semestre": 9,
-  "prerequisitos": [
-    "TODA_LA_CARRERA"
-  ]
-},
+  {
+    "codigo": "KIN504B",
+    "nombre": "Internado: Kinesiología Cardiorrespiratoria Infantil",
+    "semestre": 9,
+    "prerequisitos": ["TODA_LA_CARRERA"]
+  },
+  {
+    "codigo": "KIN506A",
+    "nombre": "Internado: Neurokinesiología Infantil",
+    "semestre": 9,
+    "prerequisitos": ["TODA_LA_CARRERA"]
+  },
+  {
+    "codigo": "KIN502B",
+    "nombre": "Internado: Kinesiología Cardiorrespiratoria Adulto",
+    "semestre": 9,
+    "prerequisitos": ["TODA_LA_CARRERA"]
+  },
 
-{
-  "nombre": "Internado: Kinesiología musculoesquelética",
-  "codigo": "KIN501B",
-  "semestre": 10,
-  "prerequisitos": [
-    "TODA_LA_CARRERA"
-  ]
-},
-{
-  "nombre": "Internado: Neurokinesiología adulto",
-  "codigo": "KIN505B",
-  "semestre": 10,
-  "prerequisitos": [
-    "TODA_LA_CARRERA"
-  ]
-},
-{
-  "nombre": "Internado: Kinesiología musculoesquelética aplicada",
-  "codigo": "KIN503B",
-  "semestre": 10,
-  "prerequisitos": [
-    "TODA_LA_CARRERA"
-  ]
-},
-{
-  "nombre": "Internado: Electivo",
-  "codigo": "KIN507",
-  "semestre": 10,
-  "prerequisitos": [
-    "TODA_LA_CARRERA"
-  ]
-}
+  {
+    "codigo": "KIN501B",
+    "nombre": "Internado: Kinesiología Musculoesquelética",
+    "semestre": 10,
+    "prerequisitos": ["TODA_LA_CARRERA"]
+  },
+  {
+    "codigo": "KIN505B",
+    "nombre": "Internado: Neurokinesiología Adulto",
+    "semestre": 10,
+    "prerequisitos": ["TODA_LA_CARRERA"]
+  },
+  {
+    "codigo": "KIN503B",
+    "nombre": "Internado: Kinesiología Musculoesquelética Aplicada",
+    "semestre": 10,
+    "prerequisitos": ["TODA_LA_CARRERA"]
+  },
+  {
+    "codigo": "INT_ELEC",
+    "nombre": "Internado: Electivo",
+    "semestre": 10,
+    "prerequisitos": ["TODA_LA_CARRERA"]
+  }
 ]
