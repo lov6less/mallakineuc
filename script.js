@@ -1,37 +1,91 @@
 // =========================
-// VARIABLES
+// VARIABLES GLOBALES
 // =========================
 
 let cursos = [];
 
 let aprobados =
+
 JSON.parse(
-localStorage.getItem("aprobados")
-) || [];
+
+    localStorage.getItem(
+    "aprobados"
+
+    )
+
+)
+
+|| [];
+
 
 let popupMostrado =
+
 JSON.parse(
-localStorage.getItem("popupInternadoMostrado")
-) || false;
+
+    localStorage.getItem(
+
+    "popupInternadoMostrado"
+
+    )
+
+)
+
+|| false;
+
+
+const ordenSemestres = [
+
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    "FG",
+    9,
+    10
+
+];
 
 
 // =========================
-// CONTENEDORES
+// ELEMENTOS HTML
 // =========================
 
 const mallaContainer =
+
 document.getElementById(
 "malla-container"
 );
 
+
 const tooltip =
+
 document.getElementById(
 "tooltip"
 );
 
+
 const tooltipContent =
+
 document.getElementById(
 "tooltip-content"
+);
+
+
+const internadoPopup =
+
+document.getElementById(
+"internado-popup"
+);
+
+
+const semesterProgressContainer =
+
+document.getElementById(
+"semester-progress-container"
 );
 
 
@@ -39,13 +93,24 @@ document.getElementById(
 // CARGAR DATA
 // =========================
 
-fetch("data.json")
+fetch(
+"data.json"
+)
 
-.then(response => response.json())
+.then(
 
-.then(data => {
+response =>
+
+response.json()
+
+)
+
+.then(
+
+data => {
 
     cursos = data;
+
 
     crearSemestres();
 
@@ -57,43 +122,26 @@ fetch("data.json")
 
     actualizarProgresoSemestres();
 
-})
+    verificarInternados();
 
-.catch(error => {
+}
 
-    console.error(
-    "Error cargando data.json:",
-    error
-    );
+)
 
-});
+.catch(
 
+error =>
 
-// =========================
-// SEMESTRES
-// =========================
+console.error(
 
-const ordenSemestres = [
+"Error al cargar data.json:",
 
-1,
-2,
-3,
-4,
+error
 
-5,
-6,
-7,
-8,
+)
 
-"FG",
-9,
-10
-
-];
-
-
-// =========================
-// CREAR COLUMNAS
+);// =========================
+// CREAR SEMESTRES
 // =========================
 
 function crearSemestres(){
@@ -103,30 +151,35 @@ function crearSemestres(){
     ordenSemestres.forEach(semestre => {
 
         const columna =
-        document.createElement("div");
+
+        document.createElement(
+        "div"
+        );
 
         columna.classList.add(
         "semester"
         );
 
-        const titulo =
-        document.createElement("h2");
-
-        titulo.classList.add(
-        "semester-title"
-        );
-
-        titulo.textContent =
-        semestre === "FG"
-        ? "Formación General"
-        : `${semestre}° semestre`;
-
-        columna.appendChild(
-        titulo
-        );
-
         columna.id =
         `semestre-${semestre}`;
+
+
+        columna.innerHTML =
+
+        `
+
+        <div class="semester-title">
+
+        ${
+            semestre === "FG"
+            ? "Formación General"
+            : `${semestre}° Semestre`
+        }
+
+        </div>
+
+        `;
+
 
         mallaContainer.appendChild(
         columna
@@ -146,7 +199,10 @@ function crearTarjetas(){
     cursos.forEach(curso => {
 
         const card =
-        document.createElement("div");
+
+        document.createElement(
+        "div"
+        );
 
         card.classList.add(
         "course"
@@ -156,12 +212,10 @@ function crearTarjetas(){
         curso.codigo;
 
 
-        // Internados
-
         if(
-        curso.prerequisitos.includes(
-        "TODA_LA_CARRERA"
-        )
+            curso.prerequisitos.includes(
+            "TODA_LA_CARRERA"
+            )
         ){
 
             card.classList.add(
@@ -171,101 +225,153 @@ function crearTarjetas(){
         }
 
 
-        // Nombre
+        card.innerHTML =
 
-        const nombre =
-        document.createElement("div");
+        `
 
-        nombre.classList.add(
-        "course-name"
-        );
+        <div class="course-name">
 
-        nombre.textContent =
-        curso.nombre;
+            ${curso.nombre}
 
+        </div>
 
-        // Código
+        <div class="course-code">
 
-        const codigo =
-        document.createElement("div");
+            ${curso.codigo}
 
-        codigo.classList.add(
-        "course-code"
-        );
+        </div>
 
-        codigo.textContent =
-        curso.codigo;
+        `;
 
-
-        card.appendChild(
-        nombre
-        );
-
-        card.appendChild(
-        codigo
-        );
-
-
-        // Click
 
         card.addEventListener(
-        "click",
-        () => manejarClick(curso)
+
+            "click",
+
+            () => manejarClick(
+            curso
+            )
+
         );
 
-
-        // Tooltip
 
         card.addEventListener(
-        "mousemove",
-        e => mostrarTooltip(
-        e,
-        curso
-        )
+
+            "mousemove",
+
+            e => mostrarTooltip(
+            e,
+            curso
+            )
+
         );
+
 
         card.addEventListener(
-        "mouseleave",
-        ocultarTooltip
+
+            "mouseleave",
+
+            ocultarTooltip
+
         );
 
-
-        // Agregar a semestre
 
         document
+
         .getElementById(
+
         `semestre-${curso.semestre}`
+
         )
+
         .appendChild(
         card
         );
 
     });
 
-}// =========================
-// VERIFICAR SI UN CURSO
-// ESTÁ DESBLOQUEADO
+}
+
+
+// =========================
+// BUSCAR CURSO
 // =========================
 
-function cursoDisponible(curso){
+function obtenerCurso(codigo){
 
-    // Internados
+    return cursos.find(
 
-    if(
-        curso.prerequisitos.includes(
-        "TODA_LA_CARRERA"
-        )
-    ){
+        curso =>
 
-        return todaLaCarreraAprobada();
+        curso.codigo === codigo
 
-    }
-
-
-    return curso.prerequisitos.every(
-        codigo =>
-        aprobados.includes(codigo)
     );
+
+}
+
+
+// =========================
+// OBTENER DEPENDIENTES
+// =========================
+
+function obtenerDependientesRecursivos(
+codigo
+){
+
+    let dependientes = [];
+
+
+    cursos.forEach(curso => {
+
+        if(
+
+        curso.prerequisitos.includes(
+        codigo
+        )
+
+        ){
+
+            dependientes.push(
+            curso
+            );
+
+
+            dependientes.push(
+
+                ...obtenerDependientesRecursivos(
+
+                curso.codigo
+
+                )
+
+            );
+
+        }
+
+    });
+
+
+    return [
+
+        ...new Map(
+
+        dependientes.map(
+
+            curso =>
+
+            [
+
+            curso.codigo,
+
+            curso
+
+            ]
+
+        )
+
+        ).values()
+
+    ];
 
 }
 
@@ -279,62 +385,112 @@ function todaLaCarreraAprobada(){
     return cursos
 
     .filter(
+
         curso =>
+
         !curso.prerequisitos.includes(
-            "TODA_LA_CARRERA"
+        "TODA_LA_CARRERA"
         )
+
     )
 
     .every(
+
         curso =>
+
         aprobados.includes(
-            curso.codigo
+        curso.codigo
         )
+
+    );
+
+}// =========================
+// CURSO DISPONIBLE
+// =========================
+
+function cursoDisponible(curso){
+
+    if(
+    curso.prerequisitos.includes(
+    "TODA_LA_CARRERA"
+    )
+    ){
+
+        return todaLaCarreraAprobada();
+
+    }
+
+
+    return curso.prerequisitos.every(
+
+        codigo =>
+
+        aprobados.includes(
+        codigo
+        )
+
     );
 
 }
 
 
 // =========================
-// ACTUALIZAR ESTADO VISUAL
+// ACTUALIZAR ESTADOS
 // =========================
 
 function actualizarEstadoCursos(){
 
-    cursos.forEach(curso => {
+    document
 
-        const card =
-        document.querySelector(
-        `[data-codigo="${curso.codigo}"]`
+    .querySelectorAll(
+    ".course"
+    )
+
+    .forEach(card => {
+
+        const codigo =
+
+        card.dataset.codigo;
+
+
+        const curso =
+
+        obtenerCurso(
+        codigo
         );
+
 
         card.classList.remove(
-            "locked",
+
+            "approved",
+
             "available",
-            "completed"
+
+            "locked"
+
         );
 
 
-        // Aprobado
-
         if(
-            aprobados.includes(
-            curso.codigo
-            )
+
+        aprobados.includes(
+        codigo
+        )
+
         ){
 
             card.classList.add(
-            "completed"
+            "approved"
             );
 
         }
 
-        // Disponible
-
         else if(
-            cursoDisponible(
-            curso
-            )
+
+        cursoDisponible(
+        curso
+        )
+
         ){
 
             card.classList.add(
@@ -342,8 +498,6 @@ function actualizarEstadoCursos(){
             );
 
         }
-
-        // Bloqueado
 
         else{
 
@@ -359,97 +513,189 @@ function actualizarEstadoCursos(){
 
 
 // =========================
-// OBTENER CURSO POR CÓDIGO
+// TOOLTIP
 // =========================
 
-function obtenerCurso(codigo){
-
-    return cursos.find(
-        curso =>
-        curso.codigo === codigo
-    );
-
-}
-
-
-// =========================
-// CURSOS DEPENDIENTES
-// =========================
-
-function obtenerDependientes(codigo){
-
-    return cursos.filter(
-
-        curso =>
-
-        curso.prerequisitos.includes(
-            codigo
-        )
-
-    );
-
-}
-
-
-// =========================
-// DEPENDIENTES RECURSIVOS
-// =========================
-
-function obtenerDependientesRecursivos(
-codigo,
-visitados = new Set()
+function mostrarTooltip(
+evento,
+curso
 ){
 
-    const dependientes =
-    obtenerDependientes(
-    codigo
-    );
+    if(
+    curso.prerequisitos.length === 0
+    ){
 
-    let resultado = [];
+        tooltip.classList.remove(
+        "visible"
+        );
 
-    dependientes.forEach(curso => {
+        return;
+
+    }
+
+
+    tooltipContent.innerHTML = "";
+
+
+    curso.prerequisitos.forEach(
+
+    codigo => {
+
+        const linea =
+
+        document.createElement(
+        "div"
+        );
+
 
         if(
-        !visitados.has(
-        curso.codigo
-        )
+        codigo ===
+        "TODA_LA_CARRERA"
         ){
 
-            visitados.add(
-            curso.codigo
-            );
+            linea.textContent =
 
-            resultado.push(
-            curso
-            );
-
-            resultado = [
-
-                ...resultado,
-
-                ...obtenerDependientesRecursivos(
-                    curso.codigo,
-                    visitados
-                )
-
-            ];
+            "🎓 Aprobar toda la carrera";
 
         }
 
-    });
+        else{
 
-    return resultado;
+            const prerreq =
 
-}// =========================
+            obtenerCurso(
+            codigo
+            );
+
+
+            linea.textContent =
+
+            (
+
+            aprobados.includes(
+            codigo
+            )
+
+            ? "✅ "
+
+            : "❌ "
+
+            )
+
+            +
+
+            prerreq.nombre;
+
+        }
+
+
+        tooltipContent.appendChild(
+        linea
+        );
+
+    }
+
+    );
+
+
+    const margen = 20;
+
+    let left =
+
+    evento.clientX +
+    margen;
+
+    let top =
+
+    evento.clientY +
+    margen;
+
+
+    const anchoTooltip = 280;
+
+    const altoTooltip = 250;
+
+
+    if(
+
+    left + anchoTooltip >
+
+    window.innerWidth
+
+    ){
+
+        left =
+
+        evento.clientX -
+
+        anchoTooltip -
+
+        margen;
+
+    }
+
+
+    if(
+
+    top + altoTooltip >
+
+    window.innerHeight
+
+    ){
+
+        top =
+
+        evento.clientY -
+
+        altoTooltip -
+
+        margen;
+
+    }
+
+
+    tooltip.style.left =
+
+    `${left}px`;
+
+
+    tooltip.style.top =
+
+    `${top}px`;
+
+
+    tooltip.classList.add(
+    "visible"
+    );
+
+}
+
+
+// =========================
+// OCULTAR TOOLTIP
+// =========================
+
+function ocultarTooltip(){
+
+    tooltip.classList.remove(
+    "visible"
+    );
+
+}
+
+
+// =========================
 // MANEJAR CLICK
 // =========================
 
 function manejarClick(curso){
 
     if(
-        aprobados.includes(
-        curso.codigo
-        )
+
+    aprobados.includes(
+    curso.codigo
+    )
+
     ){
 
         desaprobarCurso(
@@ -458,26 +704,21 @@ function manejarClick(curso){
 
     }
 
-    else{
+    else if(
 
-        if(
-        cursoDisponible(
+    cursoDisponible(
+    curso
+    )
+
+    ){
+
+        aprobarCurso(
         curso
-        )
-        ){
-
-            aprobarCurso(
-            curso
-            );
-
-        }
+        );
 
     }
 
-}
-
-
-// =========================
+}// =========================
 // APROBAR CURSO
 // =========================
 
@@ -522,8 +763,11 @@ function desaprobarCurso(curso){
         afectados
 
         .map(
+
         curso =>
+
         `• ${curso.nombre}`
+
         )
 
         .join("\n");
@@ -558,8 +802,11 @@ ${nombres}
         curso.codigo,
 
         ...afectados.map(
+
         curso =>
+
         curso.codigo
+
         )
 
     ];
@@ -590,7 +837,7 @@ ${nombres}
 
 
 // =========================
-// GUARDAR
+// GUARDAR PROGRESO
 // =========================
 
 function guardarProgreso(){
@@ -632,41 +879,54 @@ function reiniciarPopupInternado(){
 
 function actualizarProgreso(){
 
-    const total = cursos.length;
+    const total =
+    cursos.length;
 
     const completados =
     aprobados.length;
 
+
     const porcentaje =
+
     Math.round(
+
         completados /
+
         total *
+
         100
+
     );
 
 
     document
+
     .getElementById(
     "contador-ramos"
     )
+
     .textContent =
 
     `${completados} / ${total} ramos aprobados`;
 
 
     document
+
     .getElementById(
     "progress-bar"
     )
+
     .style.width =
 
     `${porcentaje}%`;
 
 
     document
+
     .getElementById(
     "porcentaje-total"
     )
+
     .textContent =
 
     `${porcentaje}%`;
@@ -691,9 +951,11 @@ function actualizarEstadisticas(){
     cursos.forEach(curso => {
 
         if(
+
         aprobados.includes(
         curso.codigo
         )
+
         ){
 
             return;
@@ -702,9 +964,11 @@ function actualizarEstadisticas(){
 
 
         if(
+
         cursoDisponible(
         curso
         )
+
         ){
 
             disponibles++;
@@ -721,26 +985,35 @@ function actualizarEstadisticas(){
 
 
     document
+
     .getElementById(
     "aprobados"
     )
+
     .textContent =
+
     aprobados.length;
 
 
     document
+
     .getElementById(
     "disponibles"
     )
+
     .textContent =
+
     disponibles;
 
 
     document
+
     .getElementById(
     "bloqueados"
     )
+
     .textContent =
+
     bloqueados;
 
 }
@@ -752,22 +1025,21 @@ function actualizarEstadisticas(){
 
 function actualizarProgresoSemestres(){
 
-    const container =
-
-    document.getElementById(
-    "semester-progress-container"
-    );
-
-    container.innerHTML = "";
+    semesterProgressContainer.innerHTML = "";
 
 
-    ordenSemestres.forEach(semestre => {
+    ordenSemestres.forEach(
+
+    semestre => {
 
         const cursosSemestre =
 
         cursos.filter(
-        curso =>
-        curso.semestre === semestre
+
+            curso =>
+
+            curso.semestre === semestre
+
         );
 
 
@@ -788,23 +1060,31 @@ function actualizarProgresoSemestres(){
         const completados =
 
         cursosSemestre.filter(
-        curso =>
-        aprobados.includes(
-        curso.codigo
-        )
+
+            curso =>
+
+            aprobados.includes(
+            curso.codigo
+            )
+
         ).length;
 
 
         const porcentaje =
 
         Math.round(
+
             completados /
+
             total *
+
             100
+
         );
 
 
         const fila =
+
         document.createElement(
         "div"
         );
@@ -821,26 +1101,34 @@ function actualizarProgresoSemestres(){
         <div class="sem-label">
 
         ${
+
         semestre === "FG"
 
-        ? "FG"
+        ?
 
-        : `${semestre}° semestre`
+        "FG"
+
+        :
+
+        `${semestre}° semestre`
+
         }
 
         </div>
 
+
         <div class="sem-bar-container">
 
             <div
+
             class="sem-bar"
-            style="
-            width:${porcentaje}%"
-            >
+
+            style="width:${porcentaje}%">
 
             </div>
 
         </div>
+
 
         <div class="sem-percent">
 
@@ -851,147 +1139,69 @@ function actualizarProgresoSemestres(){
         `;
 
 
-        container.appendChild(
+        semesterProgressContainer
+
+        .appendChild(
         fila
         );
 
     });
 
-}// =========================
-// TOOLTIP
-// =========================
-
-function mostrarTooltip(evento, curso){
-
-    if(curso.prerequisitos.length === 0){
-
-        tooltip.classList.remove("visible");
-        return;
-
-    }
-
-    tooltipContent.innerHTML = "";
-
-    curso.prerequisitos.forEach(codigo => {
-
-        const linea = document.createElement("div");
-
-        if(codigo === "TODA_LA_CARRERA"){
-
-            linea.textContent =
-            "🎓 Aprobar toda la carrera";
-
-        }
-
-        else{
-
-            const prerreq = obtenerCurso(codigo);
-
-            linea.textContent =
-            (aprobados.includes(codigo) ? "✅ " : "❌ ")
-            +
-            prerreq.nombre;
-
-        }
-
-        tooltipContent.appendChild(linea);
-
-    });
-
-    const margen = 20;
-
-let left = evento.clientX + margen;
-let top = evento.clientY + margen;
-
-const anchoTooltip = 320;
-const altoTooltip = 250;
-
-
-// Evitar que salga por la derecha
-
-if (
-left + anchoTooltip >
-window.innerWidth
-){
-
-    left =
-    evento.clientX -
-    anchoTooltip -
-    margen;
-
-}
-
-
-// Evitar que salga por abajo
-
-if (
-top + altoTooltip >
-window.innerHeight
-){
-
-    top =
-    evento.clientY -
-    altoTooltip -
-    margen;
-
-}
-
-
-tooltip.style.left =
-`${left}px`;
-
-tooltip.style.top =
-`${top}px`;
-
-    tooltip.classList.add("visible");
-
-}
-
-
-function ocultarTooltip(){
-
-    tooltip.classList.remove("visible");
-
 }
 
 
 // =========================
-// INTERNADOS
+// POPUP INTERNADOS
 // =========================
 
 function verificarInternados(){
 
     if(
+
         todaLaCarreraAprobada()
+
         &&
+
         !popupMostrado
+
     ){
 
-        document.getElementById(
-        "internado-popup"
-        ).style.display = "block";
+        internadoPopup.style.display =
+
+        "block";
+
 
         popupMostrado = true;
 
+
         localStorage.setItem(
+
             "popupInternadoMostrado",
-            JSON.stringify(true)
+
+            JSON.stringify(
+            true
+            )
+
         );
 
-        setTimeout(() => {
 
-            document.getElementById(
-            "internado-popup"
-            ).style.display = "none";
+        setTimeout(
 
-        }, 4000);
+        () => {
+
+            internadoPopup.style.display =
+
+            "none";
+
+        },
+
+        4000
+
+        );
 
     }
 
-}
-
-
-// =========================
+}// =========================
 // MODO OSCURO
 // =========================
 
@@ -1001,8 +1211,15 @@ document.getElementById(
 );
 
 if(
-localStorage.getItem("darkMode")
-=== "true"
+
+localStorage.getItem(
+"darkMode"
+)
+
+===
+
+"true"
+
 ){
 
     document.body.classList.add(
@@ -1011,8 +1228,11 @@ localStorage.getItem("darkMode")
 
 }
 
+
 themeButton.addEventListener(
+
 "click",
+
 () => {
 
     document.body.classList.toggle(
@@ -1020,13 +1240,262 @@ themeButton.addEventListener(
     );
 
     localStorage.setItem(
+
         "darkMode",
+
         document.body.classList.contains(
         "dark"
         )
+
     );
 
-});
+}
+
+);
+
+
+// =========================
+// REINICIAR MALLA
+// =========================
+
+document
+
+.getElementById(
+"reset-button"
+)
+
+.addEventListener(
+
+"click",
+
+() => {
+
+    const confirmar =
+
+    confirm(
+
+    "¿Deseas reiniciar toda la malla?"
+
+    );
+
+
+    if(
+    !confirmar
+    ){
+
+        return;
+
+    }
+
+
+    aprobados = [];
+
+
+    guardarProgreso();
+
+    reiniciarPopupInternado();
+
+    actualizarEstadoCursos();
+
+    actualizarProgreso();
+
+    actualizarProgresoSemestres();
+
+}
+
+);
+
+
+// =========================
+// EXPORTAR PROGRESO
+// =========================
+
+document
+
+.getElementById(
+"export-button"
+)
+
+.addEventListener(
+
+"click",
+
+() => {
+
+    const datos = {
+
+        aprobados,
+
+        darkMode:
+
+        document.body.classList.contains(
+        "dark"
+        )
+
+    };
+
+
+    const blob =
+
+    new Blob(
+
+        [
+
+        JSON.stringify(
+
+            datos,
+
+            null,
+
+            2
+
+        )
+
+        ],
+
+        {
+
+        type:
+
+        "application/json"
+
+        }
+
+    );
+
+
+    const enlace =
+
+    document.createElement(
+    "a"
+    );
+
+
+    enlace.href =
+
+    URL.createObjectURL(
+    blob
+    );
+
+
+    enlace.download =
+
+    "progreso-malla.json";
+
+
+    enlace.click();
+
+}
+
+);
+
+
+// =========================
+// IMPORTAR PROGRESO
+// =========================
+
+document
+
+.getElementById(
+"import-file"
+)
+
+.addEventListener(
+
+"change",
+
+evento => {
+
+    const archivo =
+
+    evento.target.files[0];
+
+
+    if(
+    !archivo
+    ){
+
+        return;
+
+    }
+
+
+    const lector =
+
+    new FileReader();
+
+
+    lector.onload =
+
+    e => {
+
+        const datos =
+
+        JSON.parse(
+        e.target.result
+        );
+
+
+        aprobados =
+
+        datos.aprobados
+
+        || [];
+
+
+        guardarProgreso();
+
+
+        if(
+
+        datos.darkMode
+
+        ){
+
+            document.body.classList.add(
+            "dark"
+            );
+
+        }
+
+        else{
+
+            document.body.classList.remove(
+            "dark"
+            );
+
+        }
+
+
+        localStorage.setItem(
+
+            "darkMode",
+
+            document.body.classList.contains(
+            "dark"
+            )
+
+        );
+
+
+        actualizarEstadoCursos();
+
+        actualizarProgreso();
+
+        actualizarProgresoSemestres();
+
+        verificarInternados();
+
+    };
+
+
+    lector.readAsText(
+    archivo
+    );
+
+}
+
+);
 
 
 // =========================
@@ -1034,11 +1503,15 @@ themeButton.addEventListener(
 // =========================
 
 document
+
 .getElementById(
 "back-to-top"
 )
+
 .addEventListener(
+
 "click",
+
 () => {
 
     window.scrollTo({
@@ -1049,56 +1522,6 @@ document
 
     });
 
-});// =========================
-// REINICIAR MALLA
-// =========================
+}
 
-document
-const resetButton =
-document.getElementById(
-"reset-button"
 );
-
-console.log(resetButton);
-
-resetButton?.addEventListener(
-"click",
-() => {
-
-    alert("Botón funcionando 🎉");
-
-});
-
-    const confirmar = confirm(
-
-`⚠️ ¿Seguro que deseas reiniciar la malla?
-
-Se perderán todos los ramos aprobados.`
-
-    );
-
-    if(!confirmar){
-
-        return;
-
-    }
-
-    aprobados = [];
-
-    popupMostrado = false;
-
-    localStorage.removeItem(
-    "aprobados"
-    );
-
-    localStorage.removeItem(
-    "popupInternadoMostrado"
-    );
-
-    actualizarEstadoCursos();
-
-    actualizarProgreso();
-
-    actualizarProgresoSemestres();
-
-});
