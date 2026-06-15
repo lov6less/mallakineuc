@@ -288,4 +288,303 @@ function todaLaCarreraAprobada() {
 
     );
 
+}// =========================
+// CURSO DISPONIBLE
+// =========================
+
+function cursoDisponible(curso) {
+
+    if (
+        curso.prerequisitos.includes(
+            "TODA_LA_CARRERA"
+        )
+    ) {
+
+        return todaLaCarreraAprobada();
+
+    }
+
+    return curso.prerequisitos.every(
+
+        codigo =>
+
+        aprobados.includes(
+            codigo
+        )
+
+    );
+
 }
+
+
+// =========================
+// ACTUALIZAR ESTADOS
+// =========================
+
+function actualizarEstados() {
+
+    document
+
+    .querySelectorAll(".course")
+
+    .forEach(card => {
+
+        const codigo =
+
+        card.dataset.codigo;
+
+
+        const curso =
+
+        obtenerCurso(
+            codigo
+        );
+
+
+        card.classList.remove(
+
+            "approved",
+            "available",
+            "locked"
+
+        );
+
+
+        if (
+
+            aprobados.includes(
+                codigo
+            )
+
+        ) {
+
+            card.classList.add(
+                "approved"
+            );
+
+        }
+
+        else if (
+
+            cursoDisponible(
+                curso
+            )
+
+        ) {
+
+            card.classList.add(
+                "available"
+            );
+
+        }
+
+        else {
+
+            card.classList.add(
+                "locked"
+            );
+
+        }
+
+    });
+
+}
+
+
+// =========================
+// TOOLTIP
+// =========================
+
+function mostrarTooltip(evento, curso) {
+
+    if (
+        curso.prerequisitos.length === 0
+    ) {
+
+        tooltip.classList.remove(
+            "visible"
+        );
+
+        return;
+
+    }
+
+    tooltipContent.innerHTML = "";
+
+
+    curso.prerequisitos.forEach(codigo => {
+
+        const linea =
+
+        document.createElement(
+            "div"
+        );
+
+
+        if (
+            codigo ===
+            "TODA_LA_CARRERA"
+        ) {
+
+            linea.textContent =
+                "🎓 Aprobar toda la carrera";
+
+        }
+
+        else {
+
+            const prerreq =
+
+            obtenerCurso(
+                codigo
+            );
+
+
+            linea.textContent =
+
+                (
+
+                    aprobados.includes(
+                        codigo
+                    )
+
+                    ? "✅ "
+
+                    : "❌ "
+
+                )
+
+                +
+
+                prerreq.nombre;
+
+        }
+
+
+        tooltipContent.appendChild(
+            linea
+        );
+
+    });
+
+
+    tooltip.style.left =
+
+        `${evento.clientX + 15}px`;
+
+
+    tooltip.style.top =
+
+        `${evento.clientY + 15}px`;
+
+
+    tooltip.classList.add(
+        "visible"
+    );
+
+}
+
+
+// =========================
+// OCULTAR TOOLTIP
+// =========================
+
+function ocultarTooltip() {
+
+    tooltip.classList.remove(
+        "visible"
+    );
+
+}
+
+
+// =========================
+// APROBAR Y DESAPROBAR
+// =========================
+
+function cambiarEstado(curso) {
+
+    if (
+
+        aprobados.includes(
+            curso.codigo
+        )
+
+    ) {
+
+        desaprobarCurso(
+            curso
+        );
+
+    }
+
+    else if (
+
+        cursoDisponible(
+            curso
+        )
+
+    ) {
+
+        aprobarCurso(
+            curso
+        );
+
+    }
+
+}
+
+
+// =========================
+// AGREGAR EVENTOS
+// =========================
+
+document
+
+.querySelectorAll(".course")
+
+.forEach(card => {
+
+    const curso =
+
+    obtenerCurso(
+        card.dataset.codigo
+    );
+
+
+    card.addEventListener(
+
+        "click",
+
+        () =>
+
+        cambiarEstado(
+            curso
+        )
+
+    );
+
+
+    card.addEventListener(
+
+        "mousemove",
+
+        e =>
+
+        mostrarTooltip(
+            e,
+            curso
+        )
+
+    );
+
+
+    card.addEventListener(
+
+        "mouseleave",
+
+        ocultarTooltip
+
+    );
+
+});
