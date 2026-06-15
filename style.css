@@ -498,7 +498,14 @@ h1{
 
 .course.approved{
 
-    background:red !important;
+    background:
+
+    var(--aprobado);
+
+    animation:
+
+    approvedGlow
+    .6s;
 
 }
 
