@@ -14,7 +14,7 @@
 
     --texto:#444;
 
-    --aprobado:#ffd6ea;
+    --aprobado:#dff7ea;
 
     --disponible:#edf8ff;
 
@@ -851,7 +851,7 @@ body.dark .course.available{
 
 body.dark .course.approved{
 
-    background:#6b4f73;
+    background:#2d4c3b;
 
 }
 
