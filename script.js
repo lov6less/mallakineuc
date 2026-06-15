@@ -588,3 +588,743 @@ document
     );
 
 });
+// =========================
+// APROBAR CURSO
+// =========================
+
+function aprobarCurso(curso) {
+
+    aprobados.push(
+        curso.codigo
+    );
+
+    guardarProgreso();
+
+    actualizarEstados();
+
+    actualizarProgreso();
+
+    actualizarProgresoSemestres();
+
+    verificarInternados();
+
+}
+
+
+// =========================
+// DESAPROBAR CURSO
+// =========================
+
+function desaprobarCurso(curso) {
+
+    const eliminar = [
+        curso.codigo
+    ];
+
+
+    let pendientes = [
+        curso.codigo
+    ];
+
+
+    while (
+        pendientes.length > 0
+    ) {
+
+        const actual =
+
+            pendientes.pop();
+
+
+        obtenerDependientes(actual)
+
+        .forEach(dep => {
+
+            if (
+
+                !eliminar.includes(
+                    dep.codigo
+                )
+
+            ) {
+
+                eliminar.push(
+                    dep.codigo
+                );
+
+                pendientes.push(
+                    dep.codigo
+                );
+
+            }
+
+        });
+
+    }
+
+
+    aprobados =
+
+    aprobados.filter(
+
+        codigo =>
+
+        !eliminar.includes(
+            codigo
+        )
+
+    );
+
+
+    guardarProgreso();
+
+    actualizarEstados();
+
+    actualizarProgreso();
+
+    actualizarProgresoSemestres();
+
+}
+
+
+// =========================
+// GUARDAR PROGRESO
+// =========================
+
+function guardarProgreso() {
+
+    localStorage.setItem(
+
+        "aprobados",
+
+        JSON.stringify(
+            aprobados
+        )
+
+    );
+
+}
+
+
+// =========================
+// BARRA DE PROGRESO
+// =========================
+
+function actualizarProgreso() {
+
+    const porcentaje =
+
+        Math.round(
+
+            aprobados.length
+
+            /
+
+            cursos.length
+
+            *
+
+            100
+
+        );
+
+
+    progressBar.style.width =
+
+        `${porcentaje}%`;
+
+
+    document
+
+    .getElementById(
+        "contador-ramos"
+    )
+
+    .textContent =
+
+        `${aprobados.length} / ${cursos.length} ramos aprobados`;
+
+
+    document
+
+    .getElementById(
+        "porcentaje-total"
+    )
+
+    .textContent =
+
+        `${porcentaje}%`;
+
+
+    actualizarEstadisticas();
+
+}
+
+
+// =========================
+// ESTADÍSTICAS
+// =========================
+
+function actualizarEstadisticas() {
+
+    let disponibles = 0;
+
+    let bloqueados = 0;
+
+
+    cursos.forEach(curso => {
+
+        if (
+
+            aprobados.includes(
+                curso.codigo
+            )
+
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+
+            cursoDisponible(
+                curso
+            )
+
+        ) {
+
+            disponibles++;
+
+        }
+
+        else {
+
+            bloqueados++;
+
+        }
+
+    });
+
+
+    document
+
+    .getElementById(
+        "aprobados"
+    )
+
+    .textContent =
+
+        aprobados.length;
+
+
+    document
+
+    .getElementById(
+        "disponibles"
+    )
+
+    .textContent =
+
+        disponibles;
+
+
+    document
+
+    .getElementById(
+        "bloqueados"
+    )
+
+    .textContent =
+
+        bloqueados;
+
+}
+
+
+// =========================
+// POPUP INTERNADOS
+// =========================
+
+function verificarInternados() {
+
+    if (
+
+        todaLaCarreraAprobada()
+
+        &&
+
+        !popupMostrado
+
+    ) {
+
+        internadoPopup.style.display =
+
+            "block";
+
+
+        popupMostrado = true;
+
+
+        localStorage.setItem(
+
+            "popupInternadoMostrado",
+
+            true
+
+        );
+
+
+        setTimeout(
+
+            () => {
+
+                internadoPopup.style.display =
+
+                    "none";
+
+            },
+
+            4000
+
+        );
+
+    }
+
+}// =========================
+// PROGRESO POR SEMESTRE
+// =========================
+
+function actualizarProgresoSemestres() {
+
+    semesterProgressContainer.innerHTML = "";
+
+    ordenSemestres.forEach(semestre => {
+
+        const cursosSemestre =
+
+        cursos.filter(
+
+            curso =>
+
+            curso.semestre === semestre
+
+        );
+
+
+        if (cursosSemestre.length === 0) {
+
+            return;
+
+        }
+
+
+        const completados =
+
+        cursosSemestre.filter(
+
+            curso =>
+
+            aprobados.includes(
+                curso.codigo
+            )
+
+        ).length;
+
+
+        const porcentaje =
+
+        Math.round(
+
+            completados
+
+            /
+
+            cursosSemestre.length
+
+            *
+
+            100
+
+        );
+
+
+        const fila =
+
+        document.createElement(
+            "div"
+        );
+
+
+        fila.className =
+        "sem-progress";
+
+
+        fila.innerHTML =
+
+        `
+
+        <div class="sem-label">
+
+        ${
+
+        semestre === "FG"
+
+        ?
+
+        "FG"
+
+        :
+
+        `${semestre}° semestre`
+
+        }
+
+        </div>
+
+        <div class="sem-bar-container">
+
+            <div
+
+            class="sem-bar"
+
+            style="width:${porcentaje}%">
+
+            </div>
+
+        </div>
+
+        <div class="sem-percent">
+
+            ${porcentaje}%
+
+        </div>
+
+        `;
+
+
+        semesterProgressContainer.appendChild(
+            fila
+        );
+
+    });
+
+}
+
+
+// =========================
+// MODO OSCURO
+// =========================
+
+if (
+
+    localStorage.getItem(
+        "darkMode"
+    )
+
+    ===
+
+    "true"
+
+) {
+
+    document.body.classList.add(
+        "dark"
+    );
+
+}
+
+
+document
+
+.getElementById(
+    "theme-toggle"
+)
+
+.addEventListener(
+
+    "click",
+
+    () => {
+
+        document.body.classList.toggle(
+            "dark"
+        );
+
+
+        localStorage.setItem(
+
+            "darkMode",
+
+            document.body.classList.contains(
+                "dark"
+            )
+
+        );
+
+    }
+
+);
+
+
+// =========================
+// REINICIAR MALLA
+// =========================
+
+document
+
+.getElementById(
+    "reset-button"
+)
+
+.addEventListener(
+
+    "click",
+
+    () => {
+
+        if (
+
+            confirm(
+                "¿Reiniciar toda la malla?"
+            )
+
+        ) {
+
+            aprobados = [];
+
+            popupMostrado = false;
+
+            guardarProgreso();
+
+            localStorage.setItem(
+
+                "popupInternadoMostrado",
+
+                false
+
+            );
+
+            actualizarEstados();
+
+            actualizarProgreso();
+
+            actualizarProgresoSemestres();
+
+        }
+
+    }
+
+);
+
+
+// =========================
+// VOLVER ARRIBA
+// =========================
+
+document
+
+.getElementById(
+    "back-to-top"
+)
+
+.addEventListener(
+
+    "click",
+
+    () => {
+
+        window.scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+    }
+
+);
+
+
+// =========================
+// EXPORTAR PROGRESO
+// =========================
+
+document
+
+.getElementById(
+    "export-button"
+)
+
+.addEventListener(
+
+    "click",
+
+    () => {
+
+        const datos = {
+
+            aprobados,
+
+            darkMode:
+
+            document.body.classList.contains(
+                "dark"
+            )
+
+        };
+
+
+        const blob =
+
+        new Blob(
+
+            [
+
+                JSON.stringify(
+                    datos,
+                    null,
+                    2
+                )
+
+            ],
+
+            {
+
+                type:
+
+                "application/json"
+
+            }
+
+        );
+
+
+        const enlace =
+
+        document.createElement(
+            "a"
+        );
+
+
+        enlace.href =
+
+        URL.createObjectURL(
+            blob
+        );
+
+
+        enlace.download =
+
+        "progreso-malla.json";
+
+
+        enlace.click();
+
+    }
+
+);
+
+
+// =========================
+// IMPORTAR PROGRESO
+// =========================
+
+document
+
+.getElementById(
+    "import-file"
+)
+
+.addEventListener(
+
+    "change",
+
+    evento => {
+
+        const archivo =
+
+        evento.target.files[0];
+
+
+        if (!archivo) {
+
+            return;
+
+        }
+
+
+        const lector =
+
+        new FileReader();
+
+
+        lector.onload = e => {
+
+            const datos =
+
+            JSON.parse(
+                e.target.result
+            );
+
+
+            aprobados =
+
+            datos.aprobados
+
+            || [];
+
+
+            guardarProgreso();
+
+
+            if (
+
+                datos.darkMode
+
+            ) {
+
+                document.body.classList.add(
+                    "dark"
+                );
+
+            }
+
+            else {
+
+                document.body.classList.remove(
+                    "dark"
+                );
+
+            }
+
+
+            localStorage.setItem(
+
+                "darkMode",
+
+                document.body.classList.contains(
+                    "dark"
+                )
+
+            );
+
+
+            actualizarEstados();
+
+            actualizarProgreso();
+
+            actualizarProgresoSemestres();
+
+        };
+
+
+        lector.readAsText(
+            archivo
+        );
+
+    }
+
+);
