@@ -3,7 +3,6 @@
 // =========================
 
 let cursos = [];
-let aprobados = [];
 
 const mallaContainer =
 document.getElementById(
@@ -18,10 +17,13 @@ document.getElementById(
 fetch("data.json")
 
 .then(
+
     response => response.json()
+
 )
 
 .then(
+
     data => {
 
         cursos = data;
@@ -30,11 +32,12 @@ fetch("data.json")
 
         crearTarjetas();
 
-
     }
+
 )
 
 .catch(
+
     error => {
 
         console.error(
@@ -43,6 +46,7 @@ fetch("data.json")
         );
 
     }
+
 );
 
 
@@ -78,11 +82,14 @@ function crearSemestres(){
                 "section"
             );
 
+
             columna.className =
             "semester";
 
+
             columna.id =
             `semestre-${semestre}`;
+
 
             columna.innerHTML =
 
@@ -107,6 +114,7 @@ function crearSemestres(){
             </h2>
 
             `;
+
 
             mallaContainer.appendChild(
                 columna
@@ -134,8 +142,10 @@ function crearTarjetas(){
                 "div"
             );
 
+
             card.className =
             "course";
+
 
             card.dataset.codigo =
             curso.codigo;
@@ -147,32 +157,17 @@ function crearTarjetas(){
 
             <div class="course-name">
 
-            ${curso.nombre}
+                ${curso.nombre}
 
             </div>
 
             <div class="course-code">
 
-            ${curso.codigo}
+                ${curso.codigo}
 
             </div>
 
             `;
-
-
-            card.addEventListener(
-
-                "click",
-
-                () => {
-
-                    cambiarEstado(
-                        curso.codigo
-                    );
-
-                }
-
-            );
 
 
             document
@@ -186,182 +181,6 @@ function crearTarjetas(){
             .appendChild(
                 card
             );
-
-        }
-
-    );
-
-}
-
-
-// =========================
-// CAMBIAR ESTADO
-// =========================
-
-function cambiarEstado(codigo){
-
-    const curso =
-    obtenerCurso(
-        codigo
-    );
-
-
-    if(
-
-        aprobados.includes(
-            codigo
-        )
-
-    ){
-
-        aprobados =
-        aprobados.filter(
-
-            c =>
-
-            c !== codigo
-
-        );
-
-    }
-
-    else if(
-
-        cursoDisponible(
-            curso
-        )
-
-    ){
-
-        aprobados.push(
-            codigo
-        );
-
-    }
-
-
-    actualizarEstados();
-
-}
-
-
-// =========================
-// OBTENER CURSO
-// =========================
-
-function obtenerCurso(codigo){
-
-    return cursos.find(
-
-        curso =>
-
-        curso.codigo === codigo
-
-    );
-
-}
-
-
-// =========================
-// CURSO DISPONIBLE
-// =========================
-
-function cursoDisponible(curso){
-
-    if(
-
-        !curso.prerrequisitos ||
-
-        curso.prerrequisitos.length === 0
-
-    ){
-
-        return true;
-
-    }
-
-
-    return curso.prerrequisitos.every(
-
-        requisito =>
-
-        aprobados.includes(
-            requisito
-        )
-
-    );
-
-}
-
-
-// =========================
-// ACTUALIZAR ESTADOS
-// =========================
-
-function actualizarEstados(){
-
-    document
-
-    .querySelectorAll(".course")
-
-    .forEach(
-
-        card => {
-
-            const codigo =
-            card.dataset.codigo;
-
-
-            const curso =
-            obtenerCurso(
-                codigo
-            );
-
-
-            card.classList.remove(
-
-                "approved",
-                "available",
-                "locked"
-
-            );
-
-
-            if(
-
-                aprobados.includes(
-                    codigo
-                )
-
-            ){
-
-                card.classList.add(
-                    "approved"
-                );
-
-            }
-
-            else if(
-
-                cursoDisponible(
-                    curso
-                )
-
-            ){
-
-                card.classList.add(
-                    "available"
-                );
-
-            }
-
-            else{
-
-                card.classList.add(
-                    "locked"
-                );
-
-            }
 
         }
 
