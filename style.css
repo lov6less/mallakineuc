@@ -1,6 +1,6 @@
-/* ========================= */
+/* ================================= */
 /* VARIABLES */
-/* ========================= */
+/* ================================= */
 
 :root{
 
@@ -24,9 +24,9 @@
 }
 
 
-/* ========================= */
+/* ================================= */
 /* RESET */
-/* ========================= */
+/* ================================= */
 
 *{
 
@@ -39,16 +39,11 @@
 }
 
 
-/* ========================= */
-/* BODY */
-/* ========================= */
-
 body{
 
     font-family:
 
-    Arial,
-    Helvetica,
+    "Segoe UI",
     sans-serif;
 
     color:
@@ -71,16 +66,12 @@ body{
 
     100vh;
 
-    padding:
-
-    24px;
-
 }
 
 
-/* ========================= */
+/* ================================= */
 /* DESTELLOS */
-/* ========================= */
+/* ================================= */
 
 #stars{
 
@@ -92,20 +83,41 @@ body{
 
     0;
 
-    z-index:
-
-    -1;
-
     pointer-events:
 
     none;
 
+    z-index:
+
+    -1;
+
 }
 
 
-/* ========================= */
+/* ================================= */
+/* CONTENEDOR GENERAL */
+/* ================================= */
+
+.container{
+
+    max-width:
+
+    1800px;
+
+    margin:
+
+    auto;
+
+    padding:
+
+    30px;
+
+}
+
+
+/* ================================= */
 /* HEADER */
-/* ========================= */
+/* ================================= */
 
 header{
 
@@ -115,7 +127,7 @@ header{
 
     margin-bottom:
 
-    28px;
+    30px;
 
 }
 
@@ -142,106 +154,42 @@ header p{
 }
 
 
-/* ========================= */
-/* ESTADÍSTICAS */
-/* ========================= */
-
-#stats{
-
-    display:
-
-    grid;
-
-    grid-template-columns:
-
-    repeat(
-        3,
-        1fr
-    );
-
-    gap:
-
-    16px;
-
-    margin-bottom:
-
-    24px;
-
-}
-
-
-.stat-card{
-
-    background:
-
-    white;
-
-    border-radius:
-
-    18px;
-
-    padding:
-
-    18px;
-
-    text-align:
-
-    center;
-
-    box-shadow:
-
-    0 4px 12px rgba(
-        0,
-        0,
-        0,
-        .08
-    );
-
-}
-
-
-.stat-card div{
-
-    font-size:
-
-    1.5rem;
-
-    font-weight:
-
-    bold;
-
-    margin-bottom:
-
-    6px;
-
-}
-
-
-/* ========================= */
+/* ================================= */
 /* PROGRESO GENERAL */
-/* ========================= */
+/* ================================= */
 
 #progress-section{
 
     background:
 
-    white;
+    rgba(
+        255,
+        255,
+        255,
+        .75
+    );
+
+    backdrop-filter:
+
+    blur(
+        10px
+    );
 
     border-radius:
 
-    18px;
+    22px;
 
     padding:
 
-    20px;
+    22px;
 
     margin-bottom:
 
-    30px;
+    25px;
 
     box-shadow:
 
-    0 4px 12px rgba(
+    0 4px 14px rgba(
         0,
         0,
         0,
@@ -260,7 +208,7 @@ header p{
 }
 
 
-#progress-container{
+.progress-container{
 
     background:
 
@@ -307,9 +255,92 @@ header p{
 
     );
 
-}/* ========================= */
+    transition:
+
+    .3s;
+
+}
+
+
+#porcentaje-total{
+
+    font-weight:
+
+    bold;
+
+}
+
+
+/* ================================= */
+/* ESTADÍSTICAS */
+/* ================================= */
+
+#stats{
+
+    display:
+
+    flex;
+
+    justify-content:
+
+    center;
+
+    gap:
+
+    30px;
+
+    flex-wrap:
+
+    wrap;
+
+    margin-bottom:
+
+    35px;
+
+}
+
+
+#stats div{
+
+    background:
+
+    rgba(
+        255,
+        255,
+        255,
+        .75
+    );
+
+    backdrop-filter:
+
+    blur(
+        10px
+    );
+
+    border-radius:
+
+    18px;
+
+    padding:
+
+    18px 24px;
+
+    box-shadow:
+
+    0 4px 14px rgba(
+        0,
+        0,
+        0,
+        .08
+    );
+
+    font-weight:
+
+    600;
+
+}/* ================================= */
 /* MALLA */
-/* ========================= */
+/* ================================= */
 
 #malla-container{
 
@@ -320,7 +351,7 @@ header p{
     repeat(
         auto-fit,
         minmax(
-            230px,
+            250px,
             1fr
         )
     );
@@ -330,9 +361,9 @@ header p{
 }
 
 
-/* ========================= */
+/* ================================= */
 /* SEMESTRES */
-/* ========================= */
+/* ================================= */
 
 .semester{
 
@@ -342,13 +373,13 @@ header p{
         255,
         255,
         255,
-        .45
+        .5
     );
 
     backdrop-filter:
 
     blur(
-        8px
+        10px
     );
 
     border-radius:
@@ -371,20 +402,22 @@ header p{
 }
 
 
-.semester h2{
+.semester-title{
 
     text-align:center;
 
-    margin-bottom:16px;
+    margin-bottom:18px;
 
     font-size:1.1rem;
+
+    font-weight:bold;
 
 }
 
 
-/* ========================= */
-/* CURSOS */
-/* ========================= */
+/* ================================= */
+/* TARJETAS */
+/* ================================= */
 
 .course{
 
@@ -431,9 +464,9 @@ header p{
 }
 
 
-/* ========================= */
+/* ================================= */
 /* NOMBRE Y CÓDIGO */
-/* ========================= */
+/* ================================= */
 
 .course-name{
 
@@ -465,9 +498,9 @@ header p{
 }
 
 
-/* ========================= */
-/* COLORES */
-/* ========================= */
+/* ================================= */
+/* ESTADOS */
+/* ================================= */
 
 .course.available{
 
@@ -486,7 +519,7 @@ header p{
 
     opacity:
 
-    .75;
+    .8;
 
 }
 
@@ -509,9 +542,9 @@ header p{
 }
 
 
-/* ========================= */
+/* ================================= */
 /* ANIMACIÓN APROBADOS */
-/* ========================= */
+/* ================================= */
 
 @keyframes approvedGlow{
 
@@ -520,7 +553,7 @@ header p{
         transform:
 
         scale(
-            .96
+            .95
         );
 
     }
@@ -544,10 +577,9 @@ header p{
 
     approvedGlow .4s;
 
-}
-/* ========================= */
+}/* ================================= */
 /* TOOLTIP */
-/* ========================= */
+/* ================================= */
 
 #tooltip{
 
@@ -555,20 +587,41 @@ header p{
 
     display:none;
 
-    z-index:1000;
-
     pointer-events:none;
+
+    z-index:1000;
 
 }
 
 
 #tooltip-content{
 
-    background:white;
+    background:
 
-    padding:14px;
+    rgba(
+        255,
+        255,
+        255,
+        .95
+    );
 
-    border-radius:16px;
+    backdrop-filter:
+
+    blur(
+        10px
+    );
+
+    border-radius:
+
+    18px;
+
+    padding:
+
+    14px;
+
+    max-width:
+
+    250px;
 
     box-shadow:
 
@@ -579,34 +632,57 @@ header p{
         .15
     );
 
-    max-width:240px;
+    font-size:
 
-    font-size:.85rem;
+    .85rem;
+
+    line-height:
+
+    1.4;
 
 }
 
 
-/* ========================= */
+/* ================================= */
 /* POPUP INTERNADOS */
-/* ========================= */
+/* ================================= */
 
 #internado-popup{
 
     position:fixed;
 
-    bottom:30px;
-
     left:50%;
+
+    bottom:30px;
 
     transform:
 
-    translateX(-50%);
+    translateX(
+        -50%
+    );
 
-    background:white;
+    background:
 
-    padding:16px 24px;
+    rgba(
+        255,
+        255,
+        255,
+        .95
+    );
 
-    border-radius:20px;
+    backdrop-filter:
+
+    blur(
+        10px
+    );
+
+    padding:
+
+    18px 26px;
+
+    border-radius:
+
+    22px;
 
     box-shadow:
 
@@ -624,32 +700,71 @@ header p{
 }
 
 
-/* ========================= */
+/* ================================= */
 /* PROGRESO POR SEMESTRE */
-/* ========================= */
+/* ================================= */
 
-#semester-progress-container{
+#semester-progress-section{
 
-    margin-top:40px;
+    margin-top:
 
-    display:grid;
-
-    gap:16px;
+    40px;
 
 }
 
 
-.semester-progress{
+#semester-progress-section h2{
 
-    background:white;
+    text-align:
 
-    border-radius:18px;
+    center;
 
-    padding:16px;
+    margin-bottom:
+
+    24px;
+
+}
+
+
+#semester-progress-container{
+
+    display:grid;
+
+    gap:
+
+    18px;
+
+}
+
+
+.sem-progress{
+
+    background:
+
+    rgba(
+        255,
+        255,
+        255,
+        .75
+    );
+
+    backdrop-filter:
+
+    blur(
+        10px
+    );
+
+    border-radius:
+
+    18px;
+
+    padding:
+
+    18px;
 
     box-shadow:
 
-    0 4px 12px rgba(
+    0 4px 14px rgba(
         0,
         0,
         0,
@@ -659,33 +774,49 @@ header p{
 }
 
 
-.semester-progress-title{
+.sem-progress-title{
 
-    margin-bottom:10px;
+    margin-bottom:
 
-    font-weight:bold;
+    12px;
 
-}
+    font-weight:
 
-
-.semester-progress-bar-container{
-
-    background:#eee;
-
-    height:14px;
-
-    border-radius:999px;
-
-    overflow:hidden;
+    bold;
 
 }
 
 
-.semester-progress-bar{
+.sem-progress-container{
 
-    height:100%;
+    background:
 
-    width:0%;
+    #eee;
+
+    height:
+
+    14px;
+
+    border-radius:
+
+    999px;
+
+    overflow:
+
+    hidden;
+
+}
+
+
+.sem-bar{
+
+    width:
+
+    0%;
+
+    height:
+
+    100%;
 
     background:
 
@@ -699,9 +830,13 @@ header p{
 
     );
 
-}/* ========================= */
+    transition:
+
+    .3s;
+
+}/* ================================= */
 /* BOTONES FLOTANTES */
-/* ========================= */
+/* ================================= */
 
 #floating-buttons{
 
@@ -722,7 +857,9 @@ header p{
 }
 
 
-#floating-buttons button{
+#floating-buttons button,
+
+#import-button{
 
     width:58px;
 
@@ -732,7 +869,26 @@ header p{
 
     border-radius:50%;
 
-    background:white;
+    background:
+
+    rgba(
+        255,
+        255,
+        255,
+        .9
+    );
+
+    backdrop-filter:
+
+    blur(
+        10px
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
 
     cursor:pointer;
 
@@ -752,7 +908,9 @@ header p{
 }
 
 
-#floating-buttons button:hover{
+#floating-buttons button:hover,
+
+#import-button:hover{
 
     transform:
 
@@ -763,9 +921,75 @@ header p{
 }
 
 
-/* ========================= */
+/* ================================= */
+/* VOLVER ARRIBA */
+/* ================================= */
+
+#back-to-top{
+
+    position:fixed;
+
+    left:20px;
+
+    bottom:20px;
+
+    width:58px;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:
+
+    rgba(
+        255,
+        255,
+        255,
+        .9
+    );
+
+    backdrop-filter:
+
+    blur(
+        10px
+    );
+
+    cursor:pointer;
+
+    font-size:1.2rem;
+
+    box-shadow:
+
+    0 4px 14px rgba(
+        0,
+        0,
+        0,
+        .12
+    );
+
+    z-index:1000;
+
+    transition:.25s;
+
+}
+
+
+#back-to-top:hover{
+
+    transform:
+
+    scale(
+        1.08
+    );
+
+}
+
+
+/* ================================= */
 /* MODO OSCURO */
-/* ========================= */
+/* ================================= */
 
 body.dark{
 
@@ -777,34 +1001,43 @@ body.dark{
 
         #23222b,
 
-        #2f2b40
+        #302b42
 
     );
 
     color:
 
-    #eeeeee;
+    #f0f0f0;
 
 }
 
 
-body.dark .stat-card,
+body.dark .semester,
 
 body.dark #progress-section,
 
-body.dark .semester,
+body.dark #stats div,
 
-body.dark .semester-progress,
+body.dark .sem-progress,
 
 body.dark #tooltip-content,
 
 body.dark #internado-popup,
 
-body.dark #floating-buttons button{
+body.dark #floating-buttons button,
+
+body.dark #import-button,
+
+body.dark #back-to-top{
 
     background:
 
-    #343040;
+    rgba(
+        50,
+        50,
+        60,
+        .92
+    );
 
     color:
 
@@ -826,7 +1059,7 @@ body.dark .course.locked{
 
     background:
 
-    #4c4c4c;
+    #4b4b4b;
 
 }
 
@@ -849,7 +1082,7 @@ body.dark .course.internado{
 }
 
 
-body.dark .semester-progress-bar,
+body.dark .sem-bar,
 
 body.dark #progress-bar{
 
@@ -868,9 +1101,9 @@ body.dark #progress-bar{
 }
 
 
-/* ========================= */
+/* ================================= */
 /* RESPONSIVE */
-/* ========================= */
+/* ================================= */
 
 @media (
 
@@ -888,7 +1121,7 @@ max-width:900px
 
             minmax(
 
-                200px,
+                220px,
 
                 1fr
 
@@ -907,11 +1140,18 @@ max-width:700px
 
 ){
 
+    .container{
+
+        padding:18px;
+
+    }
+
+
     #stats{
 
-        grid-template-columns:
+        flex-direction:column;
 
-        1fr;
+        align-items:center;
 
     }
 
@@ -925,7 +1165,20 @@ max-width:700px
     }
 
 
-    #floating-buttons button{
+    #back-to-top{
+
+        left:14px;
+
+        bottom:14px;
+
+    }
+
+
+    #floating-buttons button,
+
+    #import-button,
+
+    #back-to-top{
 
         width:52px;
 
@@ -942,13 +1195,6 @@ max-width:500px
 
 ){
 
-    body{
-
-        padding:16px;
-
-    }
-
-
     header h1{
 
         font-size:1.5rem;
@@ -959,6 +1205,13 @@ max-width:500px
     .semester{
 
         padding:14px;
+
+    }
+
+
+    .course{
+
+        padding:10px;
 
     }
 
