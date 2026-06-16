@@ -218,7 +218,38 @@ function crearTarjetas() {
             .appendChild(
                 card
             );
+card.addEventListener(
 
+    "click",
+
+    () =>
+
+    cambiarEstado(
+        curso
+    )
+
+);
+
+card.addEventListener(
+
+    "mousemove",
+
+    e =>
+
+    mostrarTooltip(
+        e,
+        curso
+    )
+
+);
+
+card.addEventListener(
+
+    "mouseleave",
+
+    ocultarTooltip
+
+);
     });
 
 }
@@ -534,58 +565,6 @@ function cambiarEstado(curso) {
 
 }
 
-
-// =========================
-// AGREGAR EVENTOS
-// =========================
-
-document
-
-.querySelectorAll(".course")
-
-.forEach(card => {
-
-    const curso =
-
-    obtenerCurso(
-        card.dataset.codigo
-    );
-
-
-    card.addEventListener(
-
-        "click",
-
-        () =>
-
-        cambiarEstado(
-            curso
-        )
-
-    );
-
-
-    card.addEventListener(
-
-        "mousemove",
-
-        e =>
-
-        mostrarTooltip(
-            e,
-            curso
-        )
-
-    );
-
-
-    card.addEventListener(
-
-        "mouseleave",
-
-        ocultarTooltip
-
-    );
 
 });// =========================
 // APROBAR CURSO
