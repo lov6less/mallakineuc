@@ -32,7 +32,7 @@ fetch("data.json")
         crearSemestres();
 
         crearTarjetas();
-actualizarEstados();
+        actualizarEstados();
     }
 
 )
