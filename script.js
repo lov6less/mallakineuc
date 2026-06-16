@@ -30,7 +30,6 @@ fetch("data.json")
 
         crearTarjetas();
 
-        actualizarEstados();
 
     }
 )
