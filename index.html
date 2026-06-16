@@ -23,7 +23,7 @@
 
 <body>
 
-    <!-- Fondo -->
+    <!-- Destellos -->
     <div id="stars"></div>
 
 
@@ -32,8 +32,7 @@
 
         <h1>
 
-            Malla Interactiva
-            Kinesiología UC
+            Malla Interactiva Kinesiología UC
 
         </h1>
 
@@ -46,7 +45,7 @@
     </header>
 
 
-    <!-- Estadísticas -->
+    <!-- Estadísticas superiores -->
     <section id="stats">
 
         <div class="stat-card">
@@ -65,6 +64,7 @@
 
         </div>
 
+
         <div class="stat-card">
 
             <div id="disponibles">
@@ -80,6 +80,7 @@
             </span>
 
         </div>
+
 
         <div class="stat-card">
 
@@ -100,7 +101,7 @@
     </section>
 
 
-    <!-- Barra de progreso -->
+    <!-- Barra de progreso general -->
     <section id="progress-section">
 
         <div id="contador-ramos">
@@ -109,6 +110,7 @@
 
         </div>
 
+
         <div id="progress-container">
 
             <div id="progress-bar">
@@ -116,6 +118,7 @@
             </div>
 
         </div>
+
 
         <div id="porcentaje-total">
 
@@ -126,16 +129,16 @@
     </section>
 
 
-    <!-- Progreso por semestre -->
-    <section id="semester-progress-container">
-
-    </section>
-
-
     <!-- Malla -->
     <main id="malla-container">
 
     </main>
+
+
+    <!-- Progreso por semestre -->
+    <section id="semester-progress-container">
+
+    </section>
 
 
     <!-- Tooltip -->
@@ -154,6 +157,46 @@
         🎓 ¡Internados desbloqueados!
 
     </div>
+
+
+    <!-- Botones flotantes -->
+    <div id="floating-buttons">
+
+        <button id="dark-mode-btn">
+
+            🌙
+
+        </button>
+
+
+        <button id="save-btn">
+
+            💾
+
+        </button>
+
+
+        <button id="reset-btn">
+
+            🔄
+
+        </button>
+
+    </div>
+
+
+    <!-- Importar progreso -->
+    <input
+
+        type="file"
+
+        id="import-file"
+
+        accept=".json"
+
+        hidden
+
+    >
 
 
     <script src="script.js"></script>
