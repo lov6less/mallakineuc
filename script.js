@@ -32,7 +32,7 @@ fetch("data.json")
         crearSemestres();
 
         crearTarjetas();
-
+actualizarEstados();
     }
 
 )
@@ -167,7 +167,52 @@ function crearTarjetas(){
 
             `;
 
+card.addEventListener(
 
+    "click",
+
+    () => {
+
+        if(
+
+            aprobados.includes(
+                curso.codigo
+            )
+
+        ){
+
+            aprobados =
+
+            aprobados.filter(
+
+                codigo =>
+
+                codigo !== curso.codigo
+
+            );
+
+        }
+
+        else if(
+
+            cursoDisponible(
+                curso
+            )
+
+        ){
+
+            aprobados.push(
+                curso.codigo
+            );
+
+        }
+
+
+        actualizarEstados();
+
+    }
+
+);
             document
 
             .getElementById(
@@ -185,4 +230,134 @@ function crearTarjetas(){
     );
 
 }
-);
+);// =========================
+// APROBADOS
+// =========================
+
+let aprobados = [];
+
+
+// =========================
+// OBTENER CURSO
+// =========================
+
+function obtenerCurso(codigo){
+
+    return cursos.find(
+
+        curso =>
+
+        curso.codigo === codigo
+
+    );
+
+}
+
+
+// =========================
+// CURSO DISPONIBLE
+// =========================
+
+function cursoDisponible(curso){
+
+    if(
+
+        !curso.prerrequisitos ||
+
+        curso.prerrequisitos.length === 0
+
+    ){
+
+        return true;
+
+    }
+
+
+    return curso.prerrequisitos.every(
+
+        requisito =>
+
+        aprobados.includes(
+            requisito
+        )
+
+    );
+
+}// =========================
+// ACTUALIZAR ESTADOS
+// =========================
+
+function actualizarEstados(){
+
+    document
+
+    .querySelectorAll(".course")
+
+    .forEach(
+
+        card => {
+
+            const codigo =
+
+            card.dataset.codigo;
+
+
+            const curso =
+
+            obtenerCurso(
+                codigo
+            );
+
+
+            card.classList.remove(
+
+                "approved",
+
+                "available",
+
+                "locked"
+
+            );
+
+
+            if(
+
+                aprobados.includes(
+                    codigo
+                )
+
+            ){
+
+                card.classList.add(
+                    "approved"
+                );
+
+            }
+
+            else if(
+
+                cursoDisponible(
+                    curso
+                )
+
+            ){
+
+                card.classList.add(
+                    "available"
+                );
+
+            }
+
+            else{
+
+                card.classList.add(
+                    "locked"
+                );
+
+            }
+
+        }
+
+    );
+
+}
