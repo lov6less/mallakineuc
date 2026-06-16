@@ -7,7 +7,8 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>
         Malla Interactiva Kinesiología UC
@@ -15,216 +16,147 @@
 
     <link
         rel="stylesheet"
-        href="style.css">
+        href="style.css"
+    >
 
 </head>
 
 <body>
 
-    <!-- Destellos -->
+    <!-- Fondo -->
     <div id="stars"></div>
 
 
-    <!-- Botones flotantes -->
+    <!-- Encabezado -->
+    <header>
 
-    <div id="floating-buttons">
+        <h1>
 
-        <button
-            id="theme-toggle"
-            title="Modo oscuro">
+            Malla Interactiva
+            Kinesiología UC
 
-            🌙
+        </h1>
 
-        </button>
+        <p>
 
+            Pontificia Universidad Católica de Chile
 
-        <button
-            id="reset-button"
-            title="Reiniciar malla">
+        </p>
 
-            🔄
-
-        </button>
+    </header>
 
 
-        <button
-            id="export-button"
-            title="Exportar progreso">
+    <!-- Estadísticas -->
+    <section id="stats">
 
-            💾
+        <div class="stat-card">
 
-        </button>
+            <div id="aprobados">
 
-
-        <label
-            id="import-button"
-            title="Importar progreso">
-
-            📂
-
-            <input
-                type="file"
-                id="import-file"
-                accept=".json"
-                hidden>
-
-        </label>
-
-    </div>
-
-
-    <div class="container">
-
-        <header>
-
-            <h1>
-
-                Malla Interactiva
-                Kinesiología UC
-
-            </h1>
-
-            <p>
-
-                Marca los ramos aprobados
-                y desbloquea automáticamente
-                los siguientes.
-
-            </p>
-
-        </header>
-
-
-        <!-- Progreso general -->
-
-        <section id="progress-section">
-
-            <div id="contador-ramos">
-
-                0 / 0 ramos aprobados
+                0
 
             </div>
 
+            <span>
 
-            <div class="progress-container">
+                Aprobados
 
-                <div id="progress-bar">
+            </span>
 
-                </div>
+        </div>
 
-            </div>
+        <div class="stat-card">
 
+            <div id="disponibles">
 
-            <div id="porcentaje-total">
-
-                0%
-
-            </div>
-
-        </section>
-
-
-        <!-- Estadísticas -->
-
-        <section id="stats">
-
-            <div>
-
-                ✅ Aprobados:
-                <span id="aprobados">
-
-                    0
-
-                </span>
+                0
 
             </div>
 
+            <span>
 
-            <div>
+                Disponibles
 
-                🩵 Disponibles:
-                <span id="disponibles">
+            </span>
 
-                    0
+        </div>
 
-                </span>
+        <div class="stat-card">
 
-            </div>
+            <div id="bloqueados">
 
-
-            <div>
-
-                🔒 Bloqueados:
-                <span id="bloqueados">
-
-                    0
-
-                </span>
+                0
 
             </div>
 
-        </section>
+            <span>
+
+                Bloqueados
+
+            </span>
+
+        </div>
+
+    </section>
 
 
-        <!-- Malla -->
+    <!-- Barra de progreso -->
+    <section id="progress-section">
 
-        <main id="malla-container">
+        <div id="contador-ramos">
 
-        </main>        <!-- Tooltip -->
+            0 / 0 ramos aprobados
 
-        <div id="tooltip">
+        </div>
 
-            <div id="tooltip-content">
+        <div id="progress-container">
+
+            <div id="progress-bar">
 
             </div>
 
         </div>
 
+        <div id="porcentaje-total">
 
-        <!-- Popup internados -->
-
-        <div id="internado-popup">
-
-            🎉 ¡Has desbloqueado los internados!
+            0%
 
         </div>
 
+    </section>
 
-        <!-- Progreso por semestre -->
 
-        <section id="semester-progress-section">
+    <!-- Progreso por semestre -->
+    <section id="semester-progress-container">
 
-            <h2>
+    </section>
 
-                Progreso por semestre
 
-            </h2>
+    <!-- Malla -->
+    <main id="malla-container">
 
-            <div
-                id="semester-progress-container">
+    </main>
 
-            </div>
 
-        </section>
+    <!-- Tooltip -->
+    <div id="tooltip">
+
+        <div id="tooltip-content">
+
+        </div>
 
     </div>
 
 
-    <!-- Volver arriba -->
+    <!-- Popup internados -->
+    <div id="internado-popup">
 
-    <button
-        id="back-to-top"
-        title="Volver arriba">
+        🎓 ¡Internados desbloqueados!
 
-        ⬆️
-
-    </button>
+    </div>
 
 
-    <script
-        src="script.js">
-
-    </script>
+    <script src="script.js"></script>
 
 </body>
 
