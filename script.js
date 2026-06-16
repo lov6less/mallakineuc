@@ -3,9 +3,9 @@
 // =========================
 
 let cursos = [];
+let aprobados = [];
 
 const mallaContainer =
-
 document.getElementById(
     "malla-container"
 );
@@ -18,13 +18,10 @@ document.getElementById(
 fetch("data.json")
 
 .then(
-
     response => response.json()
-
 )
 
 .then(
-
     data => {
 
         cursos = data;
@@ -32,29 +29,31 @@ fetch("data.json")
         crearSemestres();
 
         crearTarjetas();
-        actualizarEstados();
-    }
 
+        actualizarEstados();
+
+    }
 )
 
 .catch(
-
     error => {
 
         console.error(
+            "Error cargando data.json:",
             error
         );
 
     }
+);
+
+
 // =========================
 // CREAR SEMESTRES
 // =========================
 
 function crearSemestres(){
 
-    const semestres =
-
-    [
+    const semestres = [
 
         1,
         2,
@@ -76,20 +75,15 @@ function crearSemestres(){
         semestre => {
 
             const columna =
-
             document.createElement(
                 "section"
             );
 
-
             columna.className =
             "semester";
 
-
             columna.id =
-
             `semestre-${semestre}`;
-
 
             columna.innerHTML =
 
@@ -115,7 +109,6 @@ function crearSemestres(){
 
             `;
 
-
             mallaContainer.appendChild(
                 columna
             );
@@ -124,7 +117,10 @@ function crearSemestres(){
 
     );
 
-}// =========================
+}
+
+
+// =========================
 // CREAR TARJETAS
 // =========================
 
@@ -135,15 +131,12 @@ function crearTarjetas(){
         curso => {
 
             const card =
-
             document.createElement(
                 "div"
             );
 
-
             card.className =
             "course";
-
 
             card.dataset.codigo =
             curso.codigo;
@@ -167,52 +160,22 @@ function crearTarjetas(){
 
             `;
 
-card.addEventListener(
 
-    "click",
+            card.addEventListener(
 
-    () => {
+                "click",
 
-        if(
+                () => {
 
-            aprobados.includes(
-                curso.codigo
-            )
+                    cambiarEstado(
+                        curso.codigo
+                    );
 
-        ){
-
-            aprobados =
-
-            aprobados.filter(
-
-                codigo =>
-
-                codigo !== curso.codigo
+                }
 
             );
 
-        }
 
-        else if(
-
-            cursoDisponible(
-                curso
-            )
-
-        ){
-
-            aprobados.push(
-                curso.codigo
-            );
-
-        }
-
-
-        actualizarEstados();
-
-    }
-
-);
             document
 
             .getElementById(
@@ -230,11 +193,57 @@ card.addEventListener(
     );
 
 }
-);// =========================
-// APROBADOS
+
+
+// =========================
+// CAMBIAR ESTADO
 // =========================
 
-let aprobados = [];
+function cambiarEstado(codigo){
+
+    const curso =
+    obtenerCurso(
+        codigo
+    );
+
+
+    if(
+
+        aprobados.includes(
+            codigo
+        )
+
+    ){
+
+        aprobados =
+        aprobados.filter(
+
+            c =>
+
+            c !== codigo
+
+        );
+
+    }
+
+    else if(
+
+        cursoDisponible(
+            curso
+        )
+
+    ){
+
+        aprobados.push(
+            codigo
+        );
+
+    }
+
+
+    actualizarEstados();
+
+}
 
 
 // =========================
@@ -283,7 +292,10 @@ function cursoDisponible(curso){
 
     );
 
-}// =========================
+}
+
+
+// =========================
 // ACTUALIZAR ESTADOS
 // =========================
 
@@ -298,12 +310,10 @@ function actualizarEstados(){
         card => {
 
             const codigo =
-
             card.dataset.codigo;
 
 
             const curso =
-
             obtenerCurso(
                 codigo
             );
@@ -312,9 +322,7 @@ function actualizarEstados(){
             card.classList.remove(
 
                 "approved",
-
                 "available",
-
                 "locked"
 
             );
