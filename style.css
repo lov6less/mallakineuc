@@ -6,30 +6,42 @@
 
     --rosa:#fff2f8;
     --rosa2:#ffe4f1;
+
     --lila:#f0e7ff;
+
     --celeste:#e8f8ff;
 
     --texto:#444;
 
     --aprobado:#ffd6ea;
+
     --disponible:#edf8ff;
+
     --bloqueado:#f4f4f4;
+
     --internado:#f3e3ff;
 
 }
 
 
 /* ========================= */
-/* BASE */
+/* RESET */
 /* ========================= */
 
 *{
 
     margin:0;
+
     padding:0;
+
     box-sizing:border-box;
 
 }
+
+
+/* ========================= */
+/* BODY */
+/* ========================= */
 
 body{
 
@@ -39,36 +51,54 @@ body{
     Helvetica,
     sans-serif;
 
+    color:
+
+    var(--texto);
+
     background:
 
     linear-gradient(
+
         180deg,
+
         var(--rosa),
+
         var(--lila)
+
     );
 
-    color:var(--texto);
+    min-height:
 
-    min-height:100vh;
+    100vh;
 
-    padding:24px;
+    padding:
+
+    24px;
 
 }
 
 
 /* ========================= */
-/* FONDO */
+/* DESTELLOS */
 /* ========================= */
 
 #stars{
 
-    position:fixed;
+    position:
 
-    inset:0;
+    fixed;
 
-    pointer-events:none;
+    inset:
 
-    z-index:-1;
+    0;
+
+    z-index:
+
+    -1;
+
+    pointer-events:
+
+    none;
 
 }
 
@@ -79,115 +109,205 @@ body{
 
 header{
 
-    text-align:center;
+    text-align:
 
-    margin-bottom:32px;
+    center;
+
+    margin-bottom:
+
+    28px;
 
 }
 
+
 header h1{
 
-    margin-bottom:10px;
+    font-size:
+
+    2rem;
+
+    margin-bottom:
+
+    10px;
+
+}
+
+
+header p{
+
+    opacity:
+
+    .8;
 
 }
 
 
 /* ========================= */
-/* ESTADISTICAS */
+/* ESTADÍSTICAS */
 /* ========================= */
 
 #stats{
 
-    display:grid;
+    display:
+
+    grid;
 
     grid-template-columns:
-    repeat(3,1fr);
 
-    gap:16px;
+    repeat(
+        3,
+        1fr
+    );
 
-    margin-bottom:24px;
+    gap:
+
+    16px;
+
+    margin-bottom:
+
+    24px;
 
 }
+
 
 .stat-card{
 
-    background:white;
-
-    border-radius:18px;
-
-    padding:18px;
-
-    text-align:center;
-
-    box-shadow:
-    0 4px 12px
-    rgba(0,0,0,.08);
-
-}
-
-
-/* ========================= */
-/* PROGRESO */
-/* ========================= */
-
-#progress-section{
-
-    background:white;
-
-    border-radius:18px;
-
-    padding:20px;
-
-    margin-bottom:24px;
-
-    box-shadow:
-    0 4px 12px
-    rgba(0,0,0,.08);
-
-}
-
-#progress-container{
-
-    height:18px;
-
-    background:#eee;
-
-    border-radius:999px;
-
-    overflow:hidden;
-
-    margin:12px 0;
-
-}
-
-#progress-bar{
-
-    width:0%;
-
-    height:100%;
-
     background:
-    linear-gradient(
-        90deg,
-        #ffb7da,
-        #d8b8ff
+
+    white;
+
+    border-radius:
+
+    18px;
+
+    padding:
+
+    18px;
+
+    text-align:
+
+    center;
+
+    box-shadow:
+
+    0 4px 12px rgba(
+        0,
+        0,
+        0,
+        .08
     );
 
 }
 
 
-/* ========================= */
-/* PROGRESO SEMESTRES */
-/* ========================= */
+.stat-card div{
 
-#semester-progress-container{
+    font-size:
 
-    margin-bottom:24px;
+    1.5rem;
+
+    font-weight:
+
+    bold;
+
+    margin-bottom:
+
+    6px;
 
 }
 
 
 /* ========================= */
+/* PROGRESO GENERAL */
+/* ========================= */
+
+#progress-section{
+
+    background:
+
+    white;
+
+    border-radius:
+
+    18px;
+
+    padding:
+
+    20px;
+
+    margin-bottom:
+
+    30px;
+
+    box-shadow:
+
+    0 4px 12px rgba(
+        0,
+        0,
+        0,
+        .08
+    );
+
+}
+
+
+#contador-ramos{
+
+    margin-bottom:
+
+    12px;
+
+}
+
+
+#progress-container{
+
+    background:
+
+    #eee;
+
+    height:
+
+    18px;
+
+    border-radius:
+
+    999px;
+
+    overflow:
+
+    hidden;
+
+    margin-bottom:
+
+    12px;
+
+}
+
+
+#progress-bar{
+
+    width:
+
+    0%;
+
+    height:
+
+    100%;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        #ffb7da,
+
+        #d8b8ff
+
+    );
+
+}/* ========================= */
 /* MALLA */
 /* ========================= */
 
@@ -195,28 +315,233 @@ header h1{
 
     display:grid;
 
+    grid-template-columns:
+
+    repeat(
+        auto-fit,
+        minmax(
+            230px,
+            1fr
+        )
+    );
+
     gap:20px;
 
 }
 
 
 /* ========================= */
-/* TOOLTIP */
+/* SEMESTRES */
 /* ========================= */
 
-#tooltip{
+.semester{
 
-    display:none;
+    background:
+
+    rgba(
+        255,
+        255,
+        255,
+        .45
+    );
+
+    backdrop-filter:
+
+    blur(
+        8px
+    );
+
+    border-radius:
+
+    22px;
+
+    padding:
+
+    18px;
+
+    box-shadow:
+
+    0 4px 14px rgba(
+        0,
+        0,
+        0,
+        .08
+    );
+
+}
+
+
+.semester h2{
+
+    text-align:center;
+
+    margin-bottom:16px;
+
+    font-size:1.1rem;
 
 }
 
 
 /* ========================= */
-/* POPUP */
+/* CURSOS */
 /* ========================= */
 
-#internado-popup{
+.course{
 
-    display:none;
+    border-radius:
+
+    16px;
+
+    padding:
+
+    12px;
+
+    margin-bottom:
+
+    10px;
+
+    cursor:
+
+    pointer;
+
+    transition:
+
+    .25s;
+
+    box-shadow:
+
+    0 2px 8px rgba(
+        0,
+        0,
+        0,
+        .08
+    );
+
+}
+
+
+.course:hover{
+
+    transform:
+
+    translateY(
+        -2px
+    );
+
+}
+
+
+/* ========================= */
+/* NOMBRE Y CÓDIGO */
+/* ========================= */
+
+.course-name{
+
+    font-size:
+
+    .9rem;
+
+    font-weight:
+
+    bold;
+
+    margin-bottom:
+
+    6px;
+
+}
+
+
+.course-code{
+
+    font-size:
+
+    .8rem;
+
+    opacity:
+
+    .7;
+
+}
+
+
+/* ========================= */
+/* COLORES */
+/* ========================= */
+
+.course.available{
+
+    background:
+
+    var(--disponible);
+
+}
+
+
+.course.locked{
+
+    background:
+
+    var(--bloqueado);
+
+    opacity:
+
+    .75;
+
+}
+
+
+.course.approved{
+
+    background:
+
+    var(--aprobado);
+
+}
+
+
+.course.internado{
+
+    background:
+
+    var(--internado);
+
+}
+
+
+/* ========================= */
+/* ANIMACIÓN APROBADOS */
+/* ========================= */
+
+@keyframes approvedGlow{
+
+    0%{
+
+        transform:
+
+        scale(
+            .96
+        );
+
+    }
+
+    100%{
+
+        transform:
+
+        scale(
+            1
+        );
+
+    }
+
+}
+
+
+.course.approved{
+
+    animation:
+
+    approvedGlow .4s;
 
 }
