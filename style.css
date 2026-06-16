@@ -545,3 +545,421 @@ header p{
     approvedGlow .4s;
 
 }
+/* ========================= */
+/* TOOLTIP */
+/* ========================= */
+
+#tooltip{
+
+    position:fixed;
+
+    display:none;
+
+    z-index:1000;
+
+    pointer-events:none;
+
+}
+
+
+#tooltip-content{
+
+    background:white;
+
+    padding:14px;
+
+    border-radius:16px;
+
+    box-shadow:
+
+    0 6px 18px rgba(
+        0,
+        0,
+        0,
+        .15
+    );
+
+    max-width:240px;
+
+    font-size:.85rem;
+
+}
+
+
+/* ========================= */
+/* POPUP INTERNADOS */
+/* ========================= */
+
+#internado-popup{
+
+    position:fixed;
+
+    bottom:30px;
+
+    left:50%;
+
+    transform:
+
+    translateX(-50%);
+
+    background:white;
+
+    padding:16px 24px;
+
+    border-radius:20px;
+
+    box-shadow:
+
+    0 6px 18px rgba(
+        0,
+        0,
+        0,
+        .15
+    );
+
+    display:none;
+
+    z-index:1000;
+
+}
+
+
+/* ========================= */
+/* PROGRESO POR SEMESTRE */
+/* ========================= */
+
+#semester-progress-container{
+
+    margin-top:40px;
+
+    display:grid;
+
+    gap:16px;
+
+}
+
+
+.semester-progress{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:16px;
+
+    box-shadow:
+
+    0 4px 12px rgba(
+        0,
+        0,
+        0,
+        .08
+    );
+
+}
+
+
+.semester-progress-title{
+
+    margin-bottom:10px;
+
+    font-weight:bold;
+
+}
+
+
+.semester-progress-bar-container{
+
+    background:#eee;
+
+    height:14px;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+}
+
+
+.semester-progress-bar{
+
+    height:100%;
+
+    width:0%;
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        #ffb7da,
+
+        #d8b8ff
+
+    );
+
+}/* ========================= */
+/* BOTONES FLOTANTES */
+/* ========================= */
+
+#floating-buttons{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:20px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+    z-index:1000;
+
+}
+
+
+#floating-buttons button{
+
+    width:58px;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:white;
+
+    cursor:pointer;
+
+    font-size:1.2rem;
+
+    box-shadow:
+
+    0 4px 14px rgba(
+        0,
+        0,
+        0,
+        .12
+    );
+
+    transition:.25s;
+
+}
+
+
+#floating-buttons button:hover{
+
+    transform:
+
+    scale(
+        1.08
+    );
+
+}
+
+
+/* ========================= */
+/* MODO OSCURO */
+/* ========================= */
+
+body.dark{
+
+    background:
+
+    linear-gradient(
+
+        180deg,
+
+        #23222b,
+
+        #2f2b40
+
+    );
+
+    color:
+
+    #eeeeee;
+
+}
+
+
+body.dark .stat-card,
+
+body.dark #progress-section,
+
+body.dark .semester,
+
+body.dark .semester-progress,
+
+body.dark #tooltip-content,
+
+body.dark #internado-popup,
+
+body.dark #floating-buttons button{
+
+    background:
+
+    #343040;
+
+    color:
+
+    white;
+
+}
+
+
+body.dark .course.available{
+
+    background:
+
+    #35506c;
+
+}
+
+
+body.dark .course.locked{
+
+    background:
+
+    #4c4c4c;
+
+}
+
+
+body.dark .course.approved{
+
+    background:
+
+    #c785af;
+
+}
+
+
+body.dark .course.internado{
+
+    background:
+
+    #755f96;
+
+}
+
+
+body.dark .semester-progress-bar,
+
+body.dark #progress-bar{
+
+    background:
+
+    linear-gradient(
+
+        90deg,
+
+        #ff9ecf,
+
+        #bda3ff
+
+    );
+
+}
+
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media (
+
+max-width:900px
+
+){
+
+    #malla-container{
+
+        grid-template-columns:
+
+        repeat(
+
+            auto-fit,
+
+            minmax(
+
+                200px,
+
+                1fr
+
+            )
+
+        );
+
+    }
+
+}
+
+
+@media (
+
+max-width:700px
+
+){
+
+    #stats{
+
+        grid-template-columns:
+
+        1fr;
+
+    }
+
+
+    #floating-buttons{
+
+        right:14px;
+
+        bottom:14px;
+
+    }
+
+
+    #floating-buttons button{
+
+        width:52px;
+
+        height:52px;
+
+    }
+
+}
+
+
+@media (
+
+max-width:500px
+
+){
+
+    body{
+
+        padding:16px;
+
+    }
+
+
+    header h1{
+
+        font-size:1.5rem;
+
+    }
+
+
+    .semester{
+
+        padding:14px;
+
+    }
+
+}
